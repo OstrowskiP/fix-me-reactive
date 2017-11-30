@@ -1,0 +1,29 @@
+@import scala.concurrent.ExecutionContext
+@()(implicit ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global)
+<div id="signin-helper">
+    <p class="text-info"><strong class="text-primary">Helper:</strong> click an user to fill the sign in form</p>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            @User.users.onComplete {
+                case scala.util.Success(users) => {
+                    @users.map { user =>
+                        <tr>
+                            <td class="email">@user.email</td>
+                            <td class="pwd">123123</td>
+                        </tr>
+                    }
+                }
+                case _ => {
+                    <tr>
+                        <td>Can't retrieve users from database</td>
+                    </tr>
+                }
+            }
+    </table>
+</div>
