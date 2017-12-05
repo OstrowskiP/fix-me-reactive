@@ -5,9 +5,9 @@
 
 @displayToggleLang = {
 @if(messages.lang.code == "en") {
-    <li><a class="navbar-icon" href="@routes.Application.selectLang("pl")"><img height="26" src="../../../public/images/menu_items/polish_lang.png"></a></li>
+    <li><a class="navbar-icon" href="@routes.Application.selectLang("pl")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/polish_lang.png"></a></li>
 } else {
-    <li><a class="navbar-icon" href="@routes.Application.selectLang("en")"><img height="26" src="../../../public/images/menu_items/english_lang.png"></a></li>
+    <li><a class="navbar-icon" href="@routes.Application.selectLang("en")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/english_lang.png"></a></li>
 }
 }
 
@@ -28,19 +28,27 @@
                     A && B</a></li>
             }
             @withService("master") {
-                <li class="@("active".when(tab == "settings"))"><a href="@routes.Application.settings">Settings</a></li>
+                <li class="@("active".when(tab == "settings"))">
+                    <a class="navbar-icon" href="@routes.Application.settings" data-tooltip="@Messages("parts.title")">
+                        <img height="26" src="../../../public/images/menu_items/settings.png">
+                    </a>
+                </li>
             }
-        <li class="@("active".when(tab == "myaccount"))"><a class="navbar-icon" href="@routes.Application.myAccount"><img height="26" src="../../../public/images/menu_items/my_account.png"></a></li>
+        <li class="@("active".when(tab == "myaccount"))">
+            <a class="navbar-icon" href="@routes.Application.myAccount" data-tooltip="@Messages("topbar.myaccount")">
+                <img height="26" src="../../../public/images/menu_items/my_account.png">
+            </a>
+        </li>
         }
     </ul>
 }
     <ul class="nav navbar-nav navbar-right">
     @loggedUser.map { user =>
     <li class="navbar-text text-right" style="margin: 5px 15px">
-        @Html(Messages("topbar.hello", s"""<span class="text-success">${user.nick}</span>""", s"""<span class="text-info">${user.services.mkString(", ")}</span>"""))
+        @Html(Messages("topbar.hello", s"""<span><b>${user.nick}</b></span>""", s"""<span><b>${user.services.mkString(", ")}</b></span>"""))
     </li>
     @displayToggleLang
-    <li><a class="navbar-icon" href="@routes.Auth.signOut"><img height="26" src="../../../public/images/menu_items/logout.png"></a></li>
+    <li><a class="navbar-icon" href="@routes.Auth.signOut" data-tooltip="@Messages("signout")"><img height="26" src="../../../public/images/menu_items/logout.png"></a></li>
     }.getOrElse {
         @displayToggleLang
         <li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">@Messages("signin")</a></li>

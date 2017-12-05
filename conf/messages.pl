@@ -111,3 +111,7 @@ mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset fo
 mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don''t wish to reset your password, disregard this email and no action will be taken.
 
 mail.sign=Team MyWeb
+
+language.change=Zmień język
+
+parts.title=Części
