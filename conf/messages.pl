@@ -20,24 +20,21 @@ go.index=Strona główna
 
 topbar.index=Indeks
 topbar.myaccount=Moje konto
-topbar.hello=Witaj {0}!<br>Twoje serwisy: {1}
+topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 
 ################################################################################################
 # INDEX
 
-index.title=Authorization example
+index.title=Witaj na stronie serwisu FixME!
 index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
 <a href="{1}">My account</a> section to see your contact info.<br>\
 Of course you can <a href="{2}">sign out</a>.
-index.intro.notlogged=Now, you aren''t logged, so you can try to <a href="{0}">sign in</a> or <a href="{1}">sign up</a> and create your own account.<br>\
-If you don''t remember your password, you also can <a href="{2}">reset your password</a> with the traditional email mechanism.
-index.explanation=Each user has one or more services that indicate a specific area or hierarchical level.<br>\
-You can restrict sections to those users who match with a set of services (using logic OR or AND, you can choose).<br>\
-The <span class="text-warning">master</span> role has always full access to everywhere.
-index.example=For example:
-index.example.serviceA=the user has access to the ''service A'' area.
-index.example.serviceA_serviceB=the user has access to ''service A'' and ''service B'' areas.
-index.example.master=full access to every point of the webpage.
+index.intro.notlogged=Nasz serwis oferuje naprawę sprzętu elektronicznego bez konieczności wychodzenia z domu! \
+To co wyróżnia nas od konkurencji to możliwość zamówienia serwisu z naprawą na miejscu \
+lub z odbiorem sprzętu przez naszego pracownika (jeśli naprawa wymaga specjalistycznego sprzętu i naszego laboratorium). \
+Wystarczy, że wypełnisz zgłoszenie serwisowe, nasz praacownik odezwie się do Ciebie i umówi w dogodnej dla Ciebie dacie. \
+Zachęcamy do <a href="{0}">założenia swojego konta</a>, umożliwi Ci to śledzenie statusu swoich zgłoszeń oraz przeglądanie ich historii.
+
 index.auth.status=In this case, you are logged as {0} and your services are: {1}
 index.table.section=Section
 index.table.authobject=Authorization object

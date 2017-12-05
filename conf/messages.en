@@ -20,12 +20,12 @@ go.index=Go to index
 
 topbar.index=Index
 topbar.myaccount=My account
-topbar.hello=Hello {0}!<br>Your services are: {1}
+topbar.hello=Hello {0}!<br>Access level: {1}
 
 ################################################################################################
 # INDEX
 
-index.title=Authorization example
+index.title=Welcome to FixME webpage!
 index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
 <a href="{1}">My account</a> section to see your contact info.<br>\
 Of course you can <a href="{2}">sign out</a>.
