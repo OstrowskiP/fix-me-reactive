@@ -21,6 +21,7 @@ go.index=Go to index
 topbar.index=Index
 topbar.myaccount=My account
 topbar.hello=Hello {0}!<br>Access level: {1}
+topbar.fixrequest=Fix request
 
 ################################################################################################
 # INDEX
@@ -120,6 +121,19 @@ language.change=Change language
 # MAKE A FIX REQUEST
 
 makearequest.title=Make a fix request
+makearequest.send=Send request
+makearequest.customer.name=Name
+makearequest.customer.lastname=Lastname
+makearequest.customer.address=Address
+makearequest.customer.phone=Phone nr
+makearequest.device.type=Device type
+makearequest.device.manufacturer=Device manufacturer
+makearequest.device.model=Device model
+makearequest.description=Problem description
+makearequest.repairdate=Repair date
+makearequest.repairtime=Repair time
+makearequest.requestmade=Your fix request was successfully sent, wait for confirmation call from us\
+  or check your request's status with this tracking code: ''{0}''
 
 ################################################################################################
 # PARTS

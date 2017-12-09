@@ -1,21 +1,27 @@
-@(signUpForm: Form[User])(implicit request: RequestHeader, messages: Messages)
+@(makeARequestForm: Form[FixRequest])(implicit request: RequestHeader, messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.routes
-@default("Sign Up") {
-	@tags.alertFromRequest(request, "error")
-	@b3.formCSRF(routes.Auth.handleStartSignUp) {
-		<fieldset>
-			<legend>@Messages("signup.title")</legend>
-			@b3.text(signUpForm("firstName"), '_label -> Messages("field.firstname"), 'placeholder -> "John", 'autofocus -> true )
-			@b3.text(signUpForm("lastName"), '_label -> Messages("field.lastname"), 'placeholder -> "Doe" )
-			@b3.text(signUpForm("nick"), '_label -> Messages("field.nick"), 'placeholder -> "Johny" )
-			@b3.text(signUpForm("email"), '_label -> Messages("field.email"), 'placeholder -> Messages("signin.email.placeholder") )
-			@b3.password(signUpForm("password"), '_label -> Messages("field.password"), 'placeholder -> Messages("field.password") )
-			@b3.select(signUpForm("services"), options = User.roles.map(s => (s, s)), '_label -> "Select the services you have an account", 'multiple -> true )
-			@b3.submit('class -> "btn btn-primary btn-block"){ @Messages("signup") }
-			<div class="post-form-opts">
-				<p>@Messages("signup.signin.question") <a href="@routes.Auth.signIn">@Messages("signup.signin")</a></p>
-			</div>
-		</fieldset>
-	}
+@views.html.templates.default(title = "Make a request", None, tab = "makearequest") {
+        @tags.alertFromRequest(request, "error")
+        @b3.formCSRF(routes.Application.handleMakeARequest) {
+            <fieldset>
+                <legend>@Messages("makearequest.title")</legend>
+                @b3.text(makeARequestForm("customerName"), '_label -> Messages("makearequest.customer.name"), 'placeholder -> "John")
+                @b3.text(makeARequestForm("customerLastname"), '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
+                @b3.text(makeARequestForm("customerAddress"), '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
+                @b3.text(makeARequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000-000-000")
+                @b3.text(makeARequestForm("deviceType"), '_label -> Messages("makearequest.device.type"), 'placeholder -> "TV")
+                @b3.text(makeARequestForm("deviceManufacturer"), '_label -> Messages("makearequest.device.manufacturer"), 'placeholder -> "OKIL")
+                @b3.text(makeARequestForm("deviceModel"), '_label -> Messages("makearequest.device.model"), 'placeholder -> "Turbo")
+                @b3.text(makeARequestForm("description"), '_label -> Messages("makearequest.description"), 'placeholder -> "No sound")
+                @b3.date(makeARequestForm("repairDate"), '_label -> Messages("makearequest.repairdate"), 'placeholder -> "26-12-2017")
+                @b3.text(makeARequestForm("repairTime"), '_label -> Messages("makearequest.repairtime"), 'placeholder -> "15:45")
+                @b3.submit('class -> "btn btn-primary btn-block") {
+                    @Messages("makearequest.send")
+                }
+                <div class="post-form-opts">
+                    <p>@Messages("signup.signin.question") <a href="@routes.Auth.signIn">@Messages("signup.signin")</a></p>
+                </div>
+            </fieldset>
+        }
 }

@@ -1,11 +1,25 @@
-@()(implicit user: User, messages: Messages)
-
-@import controllers.routes
+@(parts: List[Part])(implicit user: User, messages: Messages)
 
 @views.html.templates.logged(title = "Settings Area", tab = "settings") {
-	
-	<h1 class="text-primary">Settings Area</h1>
-	
-	<h3>This is the Settings Area. Only users with <strong>'master'</strong> role can be here.</h3>
+
+    <h1 class="text-primary">Settings Area</h1>
+
+    <h3>This is the Settings Area. Only users with <strong>'master'</strong> role can be here.</h3>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+        @parts.map { part =>
+            <tr>
+                <td class="name">@part.name</td>
+                <td class="price">@part.price</td>
+            </tr>
+        }
+    </table>
 
 }

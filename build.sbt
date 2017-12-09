@@ -41,5 +41,6 @@ libraryDependencies ++= Seq(
   "net.codingwell" %% "scala-guice" % "4.0.1",
   "com.iheart" %% "ficus" % "1.2.6",
 	"com.typesafe.play" %% "play-mailer" % "5.0.0",
-  "org.reactivemongo" %% "reactivemongo" % "0.12.7"
+  "org.reactivemongo" %% "reactivemongo" % "0.12.7",
+  "org.julienrf" %% "reactivemongo-derived-codecs" % "3.0.0"
 )

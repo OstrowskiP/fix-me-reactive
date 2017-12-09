@@ -36,12 +36,23 @@
             }
         <li class="@("active".when(tab == "myaccount"))">
             <a class="navbar-icon" href="@routes.Application.myAccount" data-tooltip="@Messages("topbar.myaccount")">
-                <img height="26" src="../../../public/images/menu_items/my_account.png">
-            </a>
+            <img height="26" src="../../../public/images/menu_items/my_account.png">
+        </a>
         </li>
         }
     </ul>
 }
+
+@loggedUser.map(user => ()).getOrElse {
+    <ul class="nav navbar-nav">
+        <li class="@("active".when(tab == "makearequest"))">
+            <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
+                <img height="26" src="../../../public/images/menu_items/make_request.png">
+            </a>
+        </li>
+    </ul>
+}
+
     <ul class="nav navbar-nav navbar-right">
     @loggedUser.map { user =>
     <li class="navbar-text text-right" style="margin: 5px 15px">

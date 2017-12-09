@@ -43,6 +43,7 @@ class Auth @Inject() (
   // UTILITIES
 
   val passwordValidation = nonEmptyText(minLength = 6)
+
   def notFoundDefault(implicit request: RequestHeader) = Future.successful(NotFound(views.html.errors.notFound(request)))
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -84,7 +85,10 @@ class Auth @Inject() (
           case None => {
             val token = MailTokenUser(user.email, isSignUp = true)
             for {
-              savedUser <- userService.save(user)
+              savedUser <- userService.save(user).map {
+                case Some(u) => u
+                case None => throw UserError(s"Can't find user $user")
+              }
               _ <- authInfoRepository.add(loginInfo, passwordHasherRegistry.current.hash(user.password))
               _ <- tokenService.create(token)
             } yield {
@@ -107,8 +111,9 @@ class Auth @Inject() (
           case Some(user) => {
             env.authenticatorService.create(user.email).flatMap { authenticator =>
               if (!user.emailConfirmed) {
-                userService.save(user.copy(emailConfirmed = true)).map { newUser =>
-                  env.eventBus.publish(SignUpEvent(newUser, request))
+                userService.save(user.copy(emailConfirmed = true)).map {
+                  case Some(u) => env.eventBus.publish(SignUpEvent(u, request))
+                  case None => throw UserError(s"Can't find user $user")
                 }
               }
               for {
@@ -190,6 +195,7 @@ class Auth @Inject() (
     } else
       authenticator
   }
+
   private lazy val rememberMeParams: (FiniteDuration, Option[FiniteDuration], Option[FiniteDuration]) = {
     val cfg = conf.getConfig("silhouette.authenticator.rememberMe").get.underlying
     (

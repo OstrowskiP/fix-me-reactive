@@ -8,5 +8,5 @@ import scala.concurrent.Future
 
 class UserService extends IdentityService[User] {
   def retrieve(loginInfo: LoginInfo): Future[Option[User]] = User.findByEmail(loginInfo)
-  def save(user: User): Future[User] = User.save(user)
+  def save(user: User): Future[Option[User]] = User.save(user)
 }

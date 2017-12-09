@@ -24,6 +24,8 @@ GET		/serviceA_or_ServiceB		controllers.Application.serviceAorServiceB
 GET		/serviceA_and_ServiceB	controllers.Application.serviceAandServiceB
 GET		/settings								controllers.Application.settings
 GET		/myaccount							controllers.Application.myAccount
+GET     /makeARequest   controllers.Application.startMakeARequest
+POST    /makeARequest   controllers.Application.handleMakeARequest
 
 GET		/lang/$lang<(en|es|pl)>		controllers.Application.selectLang(lang: String)
 

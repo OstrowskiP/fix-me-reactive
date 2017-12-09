@@ -21,6 +21,7 @@ go.index=Strona główna
 topbar.index=Indeks
 topbar.myaccount=Moje konto
 topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
+topbar.fixrequest=Zgłoś żądanie naprawy
 
 ################################################################################################
 # INDEX
@@ -117,6 +118,19 @@ language.change=Zmień język
 # MAKE A FIX REQUEST
 
 makearequest.title=Dodaj zgłoszenie naprawy
+makearequest.send=Wyślij zgłoszenie
+makearequest.customer.name=Imię
+makearequest.customer.lastname=Nazwisko
+makearequest.customer.address=Adres
+makearequest.customer.phone=Numer telefonu
+makearequest.device.type=Typ urządzenia
+makearequest.device.manufacturer=Producent
+makearequest.device.model=Model
+makearequest.description=Opis usterki
+makearequest.repairdate=Preferowana data naprawy
+makearequest.repairtime=Preferowana godzina naprawy
+makearequest.requestmade=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
+  lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: ''{0}''
 
 ################################################################################################
 # PARTS
