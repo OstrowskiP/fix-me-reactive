@@ -8,7 +8,7 @@ field.nick=Nick
 field.email=Email
 field.password=Hasło
 field.password.repeat=Powtórz hasło
-field.services=Serwisy
+field.services=Poziom uprawnień
 
 submit=OK
 reset=Zresetuj
@@ -26,9 +26,8 @@ topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 # INDEX
 
 index.title=Witaj na stronie serwisu FixME!
-index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
-<a href="{1}">My account</a> section to see your contact info.<br>\
-Of course you can <a href="{2}">sign out</a>.
+index.intro.logged=Jesteś zalogowany jako <span class="text-success">{0}</span>, możesz przejść do zakładki \
+<a href="{1}">Moje konto</a> żeby zobaczyć i edytować swoje dane osobowe.
 index.intro.notlogged=Nasz serwis oferuje naprawę sprzętu elektronicznego bez konieczności wychodzenia z domu! \
 To co wyróżnia nas od konkurencji to możliwość zamówienia serwisu z naprawą na miejscu \
 lub z odbiorem sprzętu przez naszego pracownika (jeśli naprawa wymaga specjalistycznego sprzętu i naszego laboratorium). \
@@ -113,5 +112,13 @@ mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don'
 mail.sign=Team MyWeb
 
 language.change=Zmień język
+
+################################################################################################
+# MAKE A FIX REQUEST
+
+makearequest.title=Dodaj zgłoszenie naprawy
+
+################################################################################################
+# PARTS
 
 parts.title=Części

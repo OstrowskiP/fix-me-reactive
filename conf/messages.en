@@ -8,7 +8,7 @@ field.nick=Nick
 field.email=Email
 field.password=Password
 field.password.repeat=Repeat password
-field.services=Services
+field.services=Access level
 
 submit=Submit
 reset=Reset
@@ -27,8 +27,7 @@ topbar.hello=Hello {0}!<br>Access level: {1}
 
 index.title=Welcome to FixME webpage!
 index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
-<a href="{1}">My account</a> section to see your contact info.<br>\
-Of course you can <a href="{2}">sign out</a>.
+<a href="{1}">My account</a> section to see and edit your contact info.
 index.intro.notlogged=Now, you aren''t logged, so you can try to <a href="{0}">sign in</a> or <a href="{1}">sign up</a> and create your own account.<br>\
 If you don''t remember your password, you also can <a href="{2}">reset your password</a> with the traditional email mechanism.
 index.explanation=Each user has one or more services that indicate a specific area or hierarchical level.<br>\
@@ -116,5 +115,13 @@ mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don'
 mail.sign=Team MyWeb
 
 language.change=Change language
+
+################################################################################################
+# MAKE A FIX REQUEST
+
+makearequest.title=Make a fix request
+
+################################################################################################
+# PARTS
 
 parts.title=Parts

@@ -32,7 +32,7 @@ object User extends MongoDatabase {
 
   val roles = Seq("serviceA", "serviceB", "master")
 
-  val users = findAll()
+  val users = findAllUsers()
 
   //  val users = scala.collection.mutable.HashMap[Long, User](
   //    1L -> User(Some(1L), "master@myweb.com", true, (new BCryptPasswordHasher()).hash("123123").password, "Eddy", "Eddard", "Stark", List("master")),
