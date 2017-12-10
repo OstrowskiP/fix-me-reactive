@@ -1,16 +1,16 @@
 package controllers
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.{ Inject, Singleton }
 
 import com.mohiva.play.silhouette.api.Silhouette
 import models._
 import play.api._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.{ Lang, MessagesApi }
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
-import views.html.makeARequest
+import views.html.{ makeARequest, trackRequest }
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
@@ -39,6 +39,12 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "partsCost" -> ignored(0.0),
       "totalCost" -> ignored(0.0)
     )(FixRequest.apply _)(FixRequest.unapply _)
+  )
+
+  val trackRequestForm = Form(
+    single(
+      "requestId" -> text(24, 24)
+    )
   )
 
   def index = UserAwareAction { implicit request =>
@@ -90,10 +96,20 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )
   }
 
-  def trackRequest(requestId: String) = UnsecuredAction.async { implicit request =>
-    FixRequest.findById(requestId).map { fixRequestOpt =>
-      Ok(views.html.trackRequest(requestId, fixRequestOpt))
+  def startTrackRequest = UserAwareAction { implicit request =>
+    request.identity match {
+      case Some(_) => Redirect(routes.Application.index)
+      case None => Ok(views.html.trackRequest(trackRequestForm))
     }
+  }
+
+  def handleTrackRequest = UserAwareAction.async { implicit request =>
+    trackRequestForm.bindFromRequest.fold(
+      formWithErrors => Future.successful(BadRequest(trackRequest(formWithErrors))),
+      requestId => {
+        FixRequest.findById(requestId).map(fixRequestOpt => Ok(views.html.requestDetails(requestId, fixRequestOpt)))
+      }
+    )
   }
 
   def selectLang(lang: String) = UserAwareAction { implicit request =>

@@ -7,6 +7,7 @@ import play.api.i18n.Messages
 import reactivemongo.bson.BSONObjectID
 
 import scala.concurrent.Future
+import scala.util.{ Failure, Success }
 
 /**
  * Created by postrowski on 12/9/17.
@@ -46,7 +47,10 @@ object FixRequest extends MongoDatabase {
 
   val fixRequests: Future[List[FixRequest]] = findAllFixRequests()
 
-  def findById(id: String): Future[Option[FixRequest]] = findFixRequestById(BSONObjectID(id))
+  def findById(id: String): Future[Option[FixRequest]] = BSONObjectID.parse(id) match {
+    case Success(bsonId) => findFixRequestById(bsonId)
+    case Failure(_) => Future.successful(None)
+  }
 
   def save(fixRequest: FixRequest): Future[Option[FixRequest]] = createFixRequest(fixRequest)
   //    updateFixRequest(fixRequest)

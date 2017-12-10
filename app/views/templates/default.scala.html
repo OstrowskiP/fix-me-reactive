@@ -50,6 +50,11 @@
                 <img height="26" src="../../../public/images/menu_items/make_request.png">
             </a>
         </li>
+        <li class="@("active".when(tab == "trackrequest"))">
+            <a class="navbar-icon" href="@routes.Application.startTrackRequest" data-tooltip="@Messages("topbar.trackrequest")">
+                <img height="26" src="../../../public/images/menu_items/track_request.png">
+            </a>
+        </li>
     </ul>
 }
 

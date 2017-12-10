@@ -22,6 +22,7 @@ topbar.index=Indeks
 topbar.myaccount=Moje konto
 topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 topbar.fixrequest=Zgłoś żądanie naprawy
+topbar.trackrequest=Śledź zgłoszenie
 
 ################################################################################################
 # INDEX
@@ -132,7 +133,7 @@ makearequest.repairtime=Preferowana godzina naprawy
 makearequest.requestmade.title=Zgłoszenie zarejestrowane
 makearequest.requestmade.info=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
   lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: <span class="text-success" style="font-weight: bold;">{0}</span>
-makearequest.track.title=Status zgłoszenia
+makearequest.track.details.title=Status zgłoszenia
 makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-warning" style="font-weight: bold;">{0}</span>\
   , proszę sprawdź czy podajesz poprawny token.
 makearequest.track.customer.name=Imię
@@ -150,6 +151,9 @@ makearequest.track.partsused=Użyte części
 makearequest.track.cost.service=Koszt usługi
 makearequest.track.cost.parts=Koszt części
 makearequest.track.cost.total=Całkowity koszt
+makearequest.track.id=ID zgłoszenia
+makearequest.track.button=Śledź zgłoszenie
+makearequest.track.title=Śledzenie zgłoszenia
 
 ################################################################################################
 # PARTS

@@ -1,7 +1,5 @@
 package pl.lodz.p.edu.dao
 
-import java.time.LocalTime
-
 import models._
 import reactivemongo.api.MongoConnection.ParsedURI
 import reactivemongo.api.collections.bson.BSONCollection
@@ -37,6 +35,10 @@ trait MongoDatabase {
   implicit def userWriter: BSONDocumentWriter[User] = Macros.writer[User]
 
   implicit def userReader: BSONDocumentReader[User] = Macros.reader[User]
+
+  implicit def requestStatusWriter: BSONDocumentWriter[RequestStatus] = derived.encoder[RequestStatus]
+
+  implicit def requestStatusReader: BSONDocumentReader[RequestStatus] = derived.decoder[RequestStatus]
 
   implicit def fixRequestWriter: BSONDocumentWriter[FixRequest] = Macros.writer[FixRequest]
 
@@ -75,6 +77,7 @@ trait MongoDatabase {
     Await.ready(res, Duration(1, "minute"))
     findFixRequestById(fixRequest._id.get)
   }
+
   //    fixRequestsCollection.flatMap(_.insert(fixRequest).map(_ => {}))
 
   protected def updateFixRequest(fixRequest: FixRequest): Future[Option[FixRequest]] = {
