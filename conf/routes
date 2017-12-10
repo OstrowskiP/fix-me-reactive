@@ -26,6 +26,7 @@ GET		/settings								controllers.Application.settings
 GET		/myaccount							controllers.Application.myAccount
 GET     /makeARequest   controllers.Application.startMakeARequest
 POST    /makeARequest   controllers.Application.handleMakeARequest
+GET     /trackRequest/:requestId   controllers.Application.trackRequest(requestId: String)
 
 GET		/lang/$lang<(en|es|pl)>		controllers.Application.selectLang(lang: String)
 

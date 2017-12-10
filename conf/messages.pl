@@ -115,7 +115,7 @@ mail.sign=Team MyWeb
 language.change=Zmień język
 
 ################################################################################################
-# MAKE A FIX REQUEST
+# FIX REQUEST
 
 makearequest.title=Dodaj zgłoszenie naprawy
 makearequest.send=Wyślij zgłoszenie
@@ -129,8 +129,12 @@ makearequest.device.model=Model
 makearequest.description=Opis usterki
 makearequest.repairdate=Preferowana data naprawy
 makearequest.repairtime=Preferowana godzina naprawy
-makearequest.requestmade=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
-  lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: ''{0}''
+makearequest.requestmade.title=Zgłoszenie zarejestrowane
+makearequest.requestmade.info=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
+  lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: <span class="text-success" style="font-weight: bold;">{0}</span>
+makearequest.track.title=Status zgłoszenia
+makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-warning" style="font-weight: bold;">{0}</span>,\
+  proszę sprawdź czy podajesz poprawny token.
 
 ################################################################################################
 # PARTS

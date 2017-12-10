@@ -87,26 +87,14 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
           case Some(savedFixRequest) => Ok(views.html.requestMade(savedFixRequest))
           case None => BadRequest(makeARequest(makeARequestForm.withError("customerName", "Couldn't complete making request")))
         }
-        //        val loginInfo: LoginInfo = user.email
-        //        userService.retrieve(loginInfo).flatMap {
-        //          case Some(_) => Future.successful(BadRequest(viewsAuth.signUp(signUpForm.withError("email", Messages("auth.user.notunique")))))
-        //          case None => {
-        //            val token = MailTokenUser(user.email, isSignUp = true)
-        //            for {
-        //              savedUser <- userService.save(user).map {
-        //                case Some(u) => u
-        //                case None => throw UserError(s"Can't find user $user")
-        //              }
-        //              _ <- authInfoRepository.add(loginInfo, passwordHasherRegistry.current.hash(user.password))
-        //              _ <- tokenService.create(token)
-        //            } yield {
-        //              mailer.welcome(savedUser, link = routes.Auth.signUp(token.id).absoluteURL())
-        //              Ok(viewsAuth.almostSignedUp(savedUser))
-        //            }
-        //          }
-        //        }
       }
     )
+  }
+
+  def trackRequest(requestId: String) = UnsecuredAction.async { implicit request =>
+    FixRequest.findById(requestId).map { fixRequestOpt =>
+      Ok(views.html.trackRequest(requestId, fixRequestOpt))
+    }
   }
 
   def selectLang(lang: String) = UserAwareAction { implicit request =>

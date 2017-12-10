@@ -118,7 +118,7 @@ mail.sign=Team MyWeb
 language.change=Change language
 
 ################################################################################################
-# MAKE A FIX REQUEST
+# FIX REQUEST
 
 makearequest.title=Make a fix request
 makearequest.send=Send request
@@ -132,8 +132,27 @@ makearequest.device.model=Device model
 makearequest.description=Problem description
 makearequest.repairdate=Repair date
 makearequest.repairtime=Repair time
-makearequest.requestmade=Your fix request was successfully sent, wait for confirmation call from us\
-  or check your request's status with this tracking code: ''{0}''
+makearequest.requestmade.title=Request registered
+makearequest.requestmade.info=Your fix request was successfully sent, wait for confirmation call from us\
+  or check your request's status with this tracking code: <span class="text-success" style="font-weight: bold;">{0}</span>
+makearequest.track.title=Request status
+makearequest.track.error=We couldn't find fix request matching token: <span class="text-warning" style="font-weight: bold;">{0}</span>,\
+  please make sure you're entering correct fix request token.
+makearequest.track.customer.name=Name
+makearequest.track.customer.lastname=Lastname
+makearequest.track.customer.address=Address
+makearequest.track.customer.phone=Phone nr
+makearequest.track.device.type=Device type
+makearequest.track.device.manufacturer=Device manufacturer
+makearequest.track.device.model=Device model
+makearequest.track.description=Problem description
+makearequest.track.repairdate=Repair date
+makearequest.track.repairtime=Repair time
+makearequest.track.status=Request status
+makearequest.track.partsused=Parts used
+makearequest.track.cost.service=Service cost
+makearequest.track.cost.parts=Parts cost
+makearequest.track.cost.total=Total cost
 
 ################################################################################################
 # PARTS
