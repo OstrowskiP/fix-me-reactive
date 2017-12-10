@@ -136,8 +136,8 @@ makearequest.requestmade.title=Request registered
 makearequest.requestmade.info=Your fix request was successfully sent, wait for confirmation call from us\
   or check your request's status with this tracking code: <span class="text-success" style="font-weight: bold;">{0}</span>
 makearequest.track.title=Request status
-makearequest.track.error=We couldn't find fix request matching token: <span class="text-warning" style="font-weight: bold;">{0}</span>,\
-  please make sure you're entering correct fix request token.
+makearequest.track.error=We couldn't find fix request matching token: <span class="text-warning" style="font-weight: bold;">{0}</span>\
+  , please make sure you're entering correct fix request token.
 makearequest.track.customer.name=Name
 makearequest.track.customer.lastname=Lastname
 makearequest.track.customer.address=Address
@@ -158,3 +158,14 @@ makearequest.track.cost.total=Total cost
 # PARTS
 
 parts.title=Parts
+
+################################################################################################
+# Request status
+
+requeststatus.awaitingconfirmation=Awaiting confirmation
+requeststatus.confirmed=Confirmed
+requeststatus.inprogress=In progress
+requeststatus.fixed=Fixed
+requeststatus.shipped=Shipped
+requeststatus.canceled=Canceled
+requeststatus.completed=Completed

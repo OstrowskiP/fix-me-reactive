@@ -1,7 +1,7 @@
 @(requestId: String, fixRequestOpt: Option[FixRequest])(implicit request: RequestHeader, messages: Messages)
 
 
-@views.html.templates.logged(title = Messages("makearequest.track.title"), tab = "trackrequest") {
+@views.html.templates.default(title = Messages("makearequest.track.title"), None, tab = "trackrequest") {
 
     @tags.alertFromRequest(request, "success")
 
@@ -52,7 +52,9 @@
                 </tr>
                 <tr>
                     <td>@Messages("makearequest.track.status")</td>
-                    <td>@fixRequest.requestStatus</td>
+                    <td>
+                        @Messages(fixRequest.requestStatus.name)
+                    </td>
                 </tr>
                 <tr>
                     <td>@Messages("makearequest.track.partsused")</td>
@@ -73,7 +75,7 @@
             </table>
         }
         case None => {
-            <p>@Messages("makearequest.track.error", requestId)</p>
+            <p>@Html(Messages("makearequest.track.error", requestId))</p>
         }
     }
 }

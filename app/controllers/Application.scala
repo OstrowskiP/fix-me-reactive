@@ -1,17 +1,16 @@
 package controllers
 
-import javax.inject.{ Inject, Singleton }
+import javax.inject.{Inject, Singleton}
 
-import com.mohiva.play.silhouette.api.{ LoginInfo, Silhouette }
+import com.mohiva.play.silhouette.api.Silhouette
 import models._
 import play.api._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.Constraints.{ maxLength, minLength }
-import play.api.i18n.{ Lang, Messages, MessagesApi }
+import play.api.i18n.{Lang, MessagesApi}
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
-import views.html.{ auth, makeARequest }
+import views.html.makeARequest
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
@@ -34,7 +33,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "description" -> nonEmptyText,
       "repairDate" -> nonEmptyText,
       "repairTime" -> nonEmptyText,
-      "requestStatus" -> ignored("AwaitingConfirmation"),
+      "requestStatus" -> ignored(AwaitingConfirmation(): RequestStatus),
       "partsUsed" -> ignored(List[Part]()),
       "serviceCost" -> ignored(0.0),
       "partsCost" -> ignored(0.0),

@@ -133,10 +133,36 @@ makearequest.requestmade.title=Zgłoszenie zarejestrowane
 makearequest.requestmade.info=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
   lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: <span class="text-success" style="font-weight: bold;">{0}</span>
 makearequest.track.title=Status zgłoszenia
-makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-warning" style="font-weight: bold;">{0}</span>,\
-  proszę sprawdź czy podajesz poprawny token.
+makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-warning" style="font-weight: bold;">{0}</span>\
+  , proszę sprawdź czy podajesz poprawny token.
+makearequest.track.customer.name=Imię
+makearequest.track.customer.lastname=Nazwisko
+makearequest.track.customer.address=Adres
+makearequest.track.customer.phone=Numer telefonu
+makearequest.track.device.type=Typ urządzenia
+makearequest.track.device.manufacturer=Producent
+makearequest.track.device.model=Model
+makearequest.track.description=Opis usterki
+makearequest.track.repairdate=Preferowana data naprawy
+makearequest.track.repairtime=Preferowana godzina naprawy
+makearequest.track.status=Status zgłoszenia
+makearequest.track.partsused=Użyte części
+makearequest.track.cost.service=Koszt usługi
+makearequest.track.cost.parts=Koszt części
+makearequest.track.cost.total=Całkowity koszt
 
 ################################################################################################
 # PARTS
 
 parts.title=Części
+
+################################################################################################
+# Request status
+
+requeststatus.awaitingconfirmation=Oczekuje na potwierdzenie
+requeststatus.confirmed=Potwierdzone
+requeststatus.inprogress=W trakcie
+requeststatus.fixed=Naprawione
+requeststatus.shipped=Dostarczone
+requeststatus.canceled=Anulowane
+requeststatus.completed=Zamknięte

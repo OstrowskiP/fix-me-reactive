@@ -3,6 +3,7 @@ package models
 import java.time.LocalTime
 
 import pl.lodz.p.edu.dao.MongoDatabase
+import play.api.i18n.Messages
 import reactivemongo.bson.BSONObjectID
 
 import scala.concurrent.Future
@@ -23,21 +24,23 @@ case class FixRequest(
   description: String,
   repairDate: String,
   repairTime: String,
-  requestStatus: String,
+  requestStatus: RequestStatus,
   partsUsed: List[Part],
   serviceCost: Double,
   partsCost: Double,
   totalCost: Double
 )
 
-//sealed trait RequestStatus
-//case object AwaitingConfirmation extends RequestStatus
-//case object Confirmed extends RequestStatus
-//case object InProgress extends RequestStatus
-//case object Fixed extends RequestStatus
-//case object Shipped extends RequestStatus
-//case object Canceled extends RequestStatus
-//case object Completed extends RequestStatus
+sealed trait RequestStatus {
+  val name: String
+}
+case class AwaitingConfirmation(name: String = "requeststatus.awaitingconfirmation") extends RequestStatus
+case class Confirmed(name: String = "requeststatus.confirmed") extends RequestStatus
+case class InProgress(name: String = "requeststatus.inprogress") extends RequestStatus
+case class Fixed(name: String = "requeststatus.fixed") extends RequestStatus
+case class Shipped(name: String = "requeststatus.shipped") extends RequestStatus
+case class Canceled(name: String = "requeststatus.canceled") extends RequestStatus
+case class Completed(name: String = "requeststatus.completed") extends RequestStatus
 
 object FixRequest extends MongoDatabase {
 
