@@ -12,6 +12,8 @@ case class User(
     id: Option[Long],
     email: String,
     emailConfirmed: Boolean,
+    address: String,
+    phone: String,
     password: String,
     nick: String,
     firstName: String,
@@ -37,6 +39,8 @@ object User extends MongoDatabase {
   def findByEmail(email: String): Future[Option[User]] = findUserByEmail(email)
 
   def save(user: User): Future[Option[User]] = updateUser(user)
+  //
+  //  def update(email:String, address: String, phone: String, nick: String, firstName: String, lastName: String) = updateUserDetails()
 
   def remove(email: String): Future[Unit] = removeUser(email)
 }

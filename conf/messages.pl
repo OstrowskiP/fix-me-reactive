@@ -6,6 +6,8 @@ field.firstname=Imię
 field.lastname=Nazwisko
 field.nick=Nick
 field.email=Email
+field.address=Adres
+field.phone=Numer telefonu
 field.password=Hasło
 field.password.repeat=Powtórz hasło
 field.services=Poziom uprawnień
@@ -67,6 +69,8 @@ signin.signup=Zarejestruj się
 signin.forgot.question=Zapomniałeś hasła?
 signin.forgot=Zresetuj hasło
 signin.email.placeholder=adres@email.pl
+signin.address.placeholder=Stefana Żeromskiego 116, 90-924 Łódź
+signin.phone.placeholder=000000000
 
 signout=Wyloguj się
 
@@ -74,6 +78,10 @@ forgot.title=Zapomniałeś hasła?
 forgot.sent=Wysłaliśmy Ci wiadomość email na: {0}. Postępuj zgodnie ze wskazówkami w nim zawartymi aby ukończyć zmianę hasła.
 forgot.reset.title=Zresetuj hasło
 forgot.reseted=Twoje hasło zostało zmienione
+
+edit.account.title=Edytuj konto
+edit.account.save=Zapisz zmiany
+edit.account.changed=Konto zostało zaktualizowane
 
 changepass=Zmień hasło
 changepass.title=Zmień swoje hasło

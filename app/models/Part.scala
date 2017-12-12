@@ -16,6 +16,8 @@ case class Part(_id: Option[BSONObjectID], name: String, price: Double)
 object Part extends MongoDatabase {
   def parts: Future[List[Part]] = findAllParts()
 
+  def create(part: Part): Future[Option[Part]] = insertPart(part)
+
   def save(part: Part): Future[Option[Part]] = updatePart(part)
 
   def findPart(id: String): Future[Option[Part]] = BSONObjectID.parse(id) match {

@@ -15,6 +15,8 @@ GET		/reset-password/:token	controllers.Auth.resetPassword(token: String)
 POST	/reset-password/:token	controllers.Auth.handleResetPassword(token: String)
 GET		/change-password				controllers.Auth.changePassword
 POST	/change-password				controllers.Auth.handleChangePassword
+GET     /edit-account       controllers.Auth.updateAccount
+POST     /edit-account       controllers.Auth.handleUpdateAccount
 
 
 # Home page
@@ -24,11 +26,15 @@ GET		/serviceA_or_ServiceB		controllers.Application.serviceAorServiceB
 GET		/serviceA_and_ServiceB	controllers.Application.serviceAandServiceB
 GET		/parts								controllers.Application.parts
 GET		/myaccount							controllers.Application.myAccount
+
+# Fix requests
 GET     /makeARequest   controllers.Application.startMakeARequest
 POST    /makeARequest   controllers.Application.handleMakeARequest
 GET     /trackRequest   controllers.Application.startTrackRequest
 POST     /trackRequest   controllers.Application.handleTrackRequest
 GET     /trackRequest/:requestId    controllers.Application.trackRequest(requestId:String)
+
+# Parts
 GET     /addPart        controllers.Application.addPart
 POST    /addPart        controllers.Application.handleAddPart
 GET    /updatePart/:partId     controllers.Application.updatePart(partId: String)

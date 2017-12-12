@@ -27,7 +27,7 @@ trait MongoDatabase {
 
   private def db: Future[DefaultDB] = futureConnection.flatMap(_.database("fixMeDB"))
 
-  private def usersCollection: Future[BSONCollection] = db.map(_.collection("users2"))
+  private def usersCollection: Future[BSONCollection] = db.map(_.collection("users"))
 
   private def fixRequestsCollection: Future[BSONCollection] = db.map(_.collection("fixRequests"))
 
@@ -114,5 +114,12 @@ trait MongoDatabase {
     val res = partsCollection.flatMap(_.update(selector, part, upsert = true))
     Await.ready(res, Duration(1, "minute"))
     findPartById(part._id.get)
+  }
+
+  protected def insertPart(part: Part): Future[Option[Part]] = {
+    val newPart: Part = part.copy(_id = Some(BSONObjectID.generate()))
+    val res = partsCollection.flatMap(_.insert(newPart))
+    Await.ready(res, Duration(1, "minute"))
+    findPartById(newPart._id.get)
   }
 }

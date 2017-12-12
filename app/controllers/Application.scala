@@ -15,14 +15,13 @@ import views.html.makeARequest
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
-import scala.util.Success
 
 @Singleton
 class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi: MessagesApi) extends AuthController {
 
   val makeARequestForm = Form(
     mapping(
-      "_id" -> ignored(Some(BSONObjectID.generate): Option[BSONObjectID]),
+      "_id" -> ignored(None: Option[BSONObjectID]),
       "userEmail" -> ignored(None: Option[String]),
       //      "userEmail" -> email.verifying(maxLength(250)),
       "customerName" -> optional(nonEmptyText),
@@ -95,8 +94,8 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     partForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
       part => {
-        Part.save(part).map {
-          case Some(_) => Redirect(routes.Application.parts)
+        Part.create(part).map {
+          case Some(_) => Redirect(routes.Application.parts).flashing("success" -> "Saved")
           case None => BadRequest(views.html.editPart(partForm.withError("name", "Couldn't save part")))
         }
       }

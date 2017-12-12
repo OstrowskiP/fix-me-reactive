@@ -3,9 +3,9 @@ package controllers
 import models._
 import utils.silhouette._
 import utils.silhouette.Implicits._
-import com.mohiva.play.silhouette.api.{ Silhouette, LoginInfo, SignUpEvent, LoginEvent, LogoutEvent }
+import com.mohiva.play.silhouette.api.{ LoginEvent, LoginInfo, LogoutEvent, SignUpEvent, Silhouette }
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
-import com.mohiva.play.silhouette.api.util.{ Credentials, PasswordHasherRegistry, Clock }
+import com.mohiva.play.silhouette.api.util.{ Clock, Credentials, PasswordHasherRegistry }
 import com.mohiva.play.silhouette.api.exceptions.ProviderException
 import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
@@ -17,14 +17,18 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
-import play.api.i18n.{ MessagesApi, Messages }
+import play.api.i18n.{ Messages, MessagesApi }
 import utils.Mailer
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import net.ceedubs.ficus.Ficus._
 import javax.inject.{ Inject, Singleton }
+
 import views.html.{ auth => viewsAuth }
+
+import scala.util.matching.Regex
 
 @Singleton
 class Auth @Inject() (
@@ -54,11 +58,28 @@ class Auth @Inject() (
       "id" -> ignored(None: Option[Long]),
       "email" -> email.verifying(maxLength(250)),
       "emailConfirmed" -> ignored(false),
+      "address" -> nonEmptyText,
+      "phoneNr" -> text(9, 9).verifying(number => number.matches("[0-9]{9}")),
       "password" -> nonEmptyText.verifying(minLength(6)),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
       "services" -> list(nonEmptyText)
+    )(User.apply)(User.unapply)
+  )
+
+  val editAccountForm = Form(
+    mapping(
+      "id" -> ignored(None: Option[Long]),
+      "email" -> ignored("": String),
+      "emailConfirmed" -> ignored(false: Boolean),
+      "address" -> nonEmptyText,
+      "phoneNr" -> text(9, 9).verifying(number => number.matches("[0-9]{9}")),
+      "password" -> ignored("": String),
+      "nick" -> nonEmptyText,
+      "firstName" -> nonEmptyText,
+      "lastName" -> nonEmptyText,
+      "services" -> ignored(List(): List[String])
     )(User.apply)(User.unapply)
   )
 
@@ -341,4 +362,43 @@ class Auth @Inject() (
       }
     )
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // EDIT ACCOUNT
+
+  def updateAccount = SecuredAction.async { implicit request =>
+    User.findByEmail(request.identity.email).map {
+      case Some(user) => Ok(views.html.auth.editAccount(editAccountForm.fill(user)))
+      case None => Redirect(routes.Application.myAccount)
+    }
+  }
+
+  def handleUpdateAccount = SecuredAction.async { implicit request =>
+    editAccountForm.bindFromRequest.fold(
+      formWithErrors =>
+        Future.successful(BadRequest(views.html.auth.editAccount(formWithErrors))),
+      updatedAccount => {
+        User.findByEmail(request.identity.email).flatMap {
+          case Some(userToUpdate) =>
+            User.save(userToUpdate.copy(
+              firstName = updatedAccount.firstName,
+              lastName = updatedAccount.lastName,
+              nick = updatedAccount.nick,
+              address = updatedAccount.address,
+              phone = updatedAccount.phone
+            )).flatMap {
+              case Some(_) => {
+                for {
+                  authenticator <- env.authenticatorService.create(request.identity.loginInfo)
+                  result <- env.authenticatorService.renew(authenticator, Redirect(routes.Application.myAccount).flashing("success" -> Messages("edit.account.changed")))
+                } yield result
+              }
+              case None => Future.successful(Redirect(routes.Application.myAccount).flashing("error" -> "Couldn't save account2"))
+            }
+          case None => Future.successful(Redirect(routes.Application.myAccount).flashing("error" -> "Couldn't save account3"))
+        }
+      }
+    )
+  }
 }
+
