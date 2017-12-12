@@ -22,14 +22,20 @@ GET		/												controllers.Application.index
 GET		/serviceA								controllers.Application.serviceA
 GET		/serviceA_or_ServiceB		controllers.Application.serviceAorServiceB
 GET		/serviceA_and_ServiceB	controllers.Application.serviceAandServiceB
-GET		/settings								controllers.Application.settings
+GET		/parts								controllers.Application.parts
 GET		/myaccount							controllers.Application.myAccount
 GET     /makeARequest   controllers.Application.startMakeARequest
 POST    /makeARequest   controllers.Application.handleMakeARequest
 GET     /trackRequest   controllers.Application.startTrackRequest
 POST     /trackRequest   controllers.Application.handleTrackRequest
+GET     /trackRequest/:requestId    controllers.Application.trackRequest(requestId:String)
+GET     /addPart        controllers.Application.addPart
+POST    /addPart        controllers.Application.handleAddPart
+GET    /updatePart/:partId     controllers.Application.updatePart(partId: String)
+POST    /updatePart/:partId        controllers.Application.handleUpdatePart(partId: String)
+GET     /deletePart/:partId     controllers.Application.deletePart(partId: String)
 
-GET		/lang/$lang<(en|es|pl)>		controllers.Application.selectLang(lang: String)
+GET		/lang/$lang<(en|pl)>		controllers.Application.selectLang(lang: String)
 
 
 # Map static resources from the /public folder to the /assets URL path

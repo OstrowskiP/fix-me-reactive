@@ -7,13 +7,15 @@ import models._
 import play.api._
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.data.format.Formats._
 import play.api.i18n.{ Lang, MessagesApi }
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
-import views.html.{ makeARequest, trackRequest }
+import views.html.makeARequest
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
+import scala.util.Success
 
 @Singleton
 class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi: MessagesApi) extends AuthController {
@@ -47,6 +49,14 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )
   )
 
+  val partForm = Form(
+    mapping(
+      "_id" -> ignored(Some(BSONObjectID.generate): Option[BSONObjectID]),
+      "name" -> nonEmptyText,
+      "price" -> of(doubleFormat)
+    )(Part.apply)(Part.unapply)
+  )
+
   def index = UserAwareAction { implicit request =>
     Ok(views.html.index())
   }
@@ -71,9 +81,50 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
   }
 
   // REQUIRED ROLES: master
-  def settings = SecuredAction(WithService("master")).async { implicit request =>
+  def parts = SecuredAction(WithService("master")).async { implicit request =>
     Part.parts.map { partsList =>
-      Ok(views.html.settings(partsList))
+      Ok(views.html.parts(partsList))
+    }
+  }
+
+  def addPart = SecuredAction(WithService("master")) { implicit request =>
+    Ok(views.html.editPart(partForm))
+  }
+
+  def handleAddPart = SecuredAction(WithService("master")).async { implicit request =>
+    partForm.bindFromRequest.fold(
+      formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
+      part => {
+        Part.save(part).map {
+          case Some(_) => Redirect(routes.Application.parts)
+          case None => BadRequest(views.html.editPart(partForm.withError("name", "Couldn't save part")))
+        }
+      }
+    )
+  }
+  def handleUpdatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+    partForm.bindFromRequest.fold(
+      formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
+      part => {
+        Part.save(part.copy(_id = BSONObjectID.parse(partId).toOption)).map {
+          case Some(_) => Redirect(routes.Application.parts)
+          case None => BadRequest(views.html.editPart(partForm.withError("name", "Couldn't save part")))
+        }
+      }
+    )
+  }
+
+  def updatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+    Part.findPart(partId).map {
+      case Some(part) => Ok(views.html.editPart(partForm.fill(part), part._id.map(_.stringify)))
+      case None => BadRequest(views.html.editPart(partForm.withError("name", "Couldn't find part")))
+    }
+  }
+
+  def deletePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+    Part.remove(partId).map {
+      case Some(x) => Redirect(routes.Application.parts)
+      case None => Redirect(routes.Application.parts)
     }
   }
 
@@ -105,11 +156,15 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
 
   def handleTrackRequest = UserAwareAction.async { implicit request =>
     trackRequestForm.bindFromRequest.fold(
-      formWithErrors => Future.successful(BadRequest(trackRequest(formWithErrors))),
+      formWithErrors => Future.successful(BadRequest(views.html.trackRequest(formWithErrors))),
       requestId => {
         FixRequest.findById(requestId).map(fixRequestOpt => Ok(views.html.requestDetails(requestId, fixRequestOpt)))
       }
     )
+  }
+
+  def trackRequest(requestId: String) = UnsecuredAction.async { implicit request =>
+    FixRequest.findById(requestId).map(fixRequestOpt => Ok(views.html.requestDetails(requestId, fixRequestOpt)))
   }
 
   def selectLang(lang: String) = UserAwareAction { implicit request =>

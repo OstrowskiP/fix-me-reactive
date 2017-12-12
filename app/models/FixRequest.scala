@@ -45,7 +45,7 @@ case class Completed(name: String = "requeststatus.completed") extends RequestSt
 
 object FixRequest extends MongoDatabase {
 
-  val fixRequests: Future[List[FixRequest]] = findAllFixRequests()
+  def fixRequests: Future[List[FixRequest]] = findAllFixRequests()
 
   def findById(id: String): Future[Option[FixRequest]] = BSONObjectID.parse(id) match {
     case Success(bsonId) => findFixRequestById(bsonId)

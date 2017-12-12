@@ -88,8 +88,8 @@ auth.passwords.notequal=The passwords must be equal
 auth.password.changed=The password has been successfully changed
 auth.currentpwd.incorrect=The current password is incorrect
 
-denied.title=Access denied!
-denied.text=You have no privileges to be here.
+denied.title=Odmowa dostępu!
+denied.text=Nie posiadasz wystarczających uprawnień do wyświetlenia tej strony.
 
 ################################################################################################
 # ERRORS
@@ -134,8 +134,10 @@ makearequest.requestmade.title=Zgłoszenie zarejestrowane
 makearequest.requestmade.info=Twoje zgłoszenie zostało pomyślnie wysłane, czekaj na telefon z potwierdzeniem\
   lub sprawdź status swojego zamówienia przy użyciu tego kodu śledzącego: <span class="text-success" style="font-weight: bold;">{0}</span>
 makearequest.track.details.title=Status zgłoszenia
-makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-warning" style="font-weight: bold;">{0}</span>\
+################################################################################################
+makearequest.track.error=Nie możemy znaleźć zgłoszenia pasującego do tokenu: <span class="text-danger" style="font-weight: bold;">{0}</span>\
   , proszę sprawdź czy podajesz poprawny token.
+################################################################################################
 makearequest.track.customer.name=Imię
 makearequest.track.customer.lastname=Nazwisko
 makearequest.track.customer.address=Adres
@@ -159,6 +161,11 @@ makearequest.track.title=Śledzenie zgłoszenia
 # PARTS
 
 parts.title=Części
+parts.table.name=Nazwa
+parts.table.price=Cena (ZŁ)
+parts.name.placeholder=Kondensator 220uF
+parts.save=Zapisz część
+parts.add=Dodaj część
 
 ################################################################################################
 # Request status

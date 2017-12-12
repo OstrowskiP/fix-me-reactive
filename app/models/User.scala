@@ -32,7 +32,7 @@ object User extends MongoDatabase {
 
   val roles = Seq("serviceA", "serviceB", "master")
 
-  val users: Future[List[User]] = findAllUsers()
+  def users: Future[List[User]] = findAllUsers()
 
   def findByEmail(email: String): Future[Option[User]] = findUserByEmail(email)
 

@@ -3,6 +3,7 @@ package pl.lodz.p.edu.dao
 import models._
 import reactivemongo.api.MongoConnection.ParsedURI
 import reactivemongo.api.collections.bson.BSONCollection
+import reactivemongo.api.commands.WriteResult
 import reactivemongo.api.{ DefaultDB, MongoConnection, MongoDriver }
 import reactivemongo.bson.{ BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, derived, document }
 
@@ -100,15 +101,18 @@ trait MongoDatabase {
   protected def findAllParts(): Future[List[Part]] =
     partsCollection.flatMap(_.find(document()).cursor[Part]().collect[List](25))
 
-  protected def findPartByName(name: String): Future[Option[Part]] =
-    partsCollection.flatMap(_.find(document("name" -> name)).one[Part])
+  protected def findPartById(id: BSONObjectID): Future[Option[Part]] =
+    partsCollection.flatMap(_.find(document("_id" -> id)).one[Part])
+
+  protected def removePart(id: BSONObjectID): Future[WriteResult] =
+    partsCollection.flatMap(_.remove(document("_id" -> id)))
 
   protected def updatePart(part: Part): Future[Option[Part]] = {
     val selector = document(
-      "name" -> part.name
+      "_id" -> part._id
     )
     val res = partsCollection.flatMap(_.update(selector, part, upsert = true))
     Await.ready(res, Duration(1, "minute"))
-    findPartByName(part.name)
+    findPartById(part._id.get)
   }
 }
