@@ -26,6 +26,7 @@ import scala.concurrent.duration._
 import net.ceedubs.ficus.Ficus._
 import javax.inject.{ Inject, Singleton }
 
+import reactivemongo.bson.BSONObjectID
 import views.html.{ auth => viewsAuth }
 
 import scala.util.matching.Regex
@@ -361,6 +362,63 @@ class Auth @Inject() (
         }
       }
     )
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // ACCOUNT MANAGEMENT
+
+  def users = SecuredAction(WithService("master")).async { implicit request =>
+    User.users.map { usersList =>
+      Ok(viewsAuth.users(usersList.filterNot(user => user.email == request.identity.email)))
+    }
+  }
+
+  def updateUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+    if (request.identity.email == email) {
+      Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
+    } else {
+      User.findByEmail(email).map {
+        case Some(user) => Ok(viewsAuth.editUser(editAccountForm.fill(user), email))
+        case None => Redirect(routes.Auth.users).flashing("error" -> "Couldn't find user")
+      }
+    }
+  }
+
+  def handleUpdateUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+    if (request.identity.email == email) {
+      Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
+    } else {
+      editAccountForm.bindFromRequest.fold(
+        formWithErrors => Future.successful(BadRequest(viewsAuth.editUser(formWithErrors, email))),
+        userUpdated => {
+          User.findByEmail(email).flatMap {
+            case Some(userToUpdate) =>
+              User.save(userToUpdate.copy(
+                firstName = userUpdated.firstName,
+                lastName = userUpdated.lastName,
+                nick = userUpdated.nick,
+                address = userUpdated.address,
+                phone = userUpdated.phone
+              )).map {
+                case Some(_) => Redirect(routes.Auth.users).flashing("success" -> "User updated")
+                case None => Redirect(routes.Auth.users).flashing("error" -> "Couldn't save user")
+              }
+            case None => ???
+          }
+        }
+      )
+    }
+  }
+
+  def deleteUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+    if (request.identity.email == email) {
+      Future.successful(Redirect(routes.Auth.users).flashing("error" -> "Can't delete own account"))
+    } else {
+      User.remove(email).map {
+        case Some(_) => Redirect(routes.Auth.users).flashing("success" -> "Deleted user")
+        case None => Redirect(routes.Auth.users).flashing("error" -> "Couldn't delete user")
+      }
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

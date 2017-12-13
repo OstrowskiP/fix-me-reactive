@@ -19,7 +19,7 @@ class PasswordInfoDAO extends DelegableAuthInfoDAO[PasswordInfo] {
       case _ => None
     }
 
-  def remove(loginInfo: LoginInfo): Future[Unit] = User.remove(loginInfo)
+  def remove(loginInfo: LoginInfo): Future[Unit] = User.remove(loginInfo).map(_ => ())
 
   def save(loginInfo: LoginInfo, authInfo: PasswordInfo): Future[PasswordInfo] =
     find(loginInfo).flatMap {

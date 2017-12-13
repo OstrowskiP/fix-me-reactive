@@ -3,6 +3,7 @@ package models
 import utils.silhouette.IdentitySilhouette
 import com.mohiva.play.silhouette.password.BCryptPasswordHasher
 import pl.lodz.p.edu.dao.MongoDatabase
+import reactivemongo.api.commands.WriteResult
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,5 +41,5 @@ object User extends MongoDatabase {
 
   def save(user: User): Future[Option[User]] = updateUser(user)
 
-  def remove(email: String): Future[Unit] = removeUser(email)
+  def remove(email: String): Future[Option[WriteResult]] = removeUser(email).map(Option(_))
 }

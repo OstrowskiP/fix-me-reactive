@@ -63,7 +63,7 @@ trait MongoDatabase {
     findUserByEmail(user.email)
   }
 
-  protected def removeUser(email: String): Future[Unit] = usersCollection.flatMap(_.remove(document("email" -> email))).map(_ => ())
+  protected def removeUser(email: String): Future[WriteResult] = usersCollection.flatMap(_.remove(document("email" -> email)))
 
   protected def findUserByEmail(email: String): Future[Option[User]] =
     usersCollection.flatMap(_.find(document("email" -> email)).one[User])

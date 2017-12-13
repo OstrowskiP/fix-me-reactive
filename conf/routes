@@ -26,6 +26,10 @@ GET		/serviceA_or_ServiceB		controllers.Application.serviceAorServiceB
 GET		/serviceA_and_ServiceB	controllers.Application.serviceAandServiceB
 GET		/parts								controllers.Application.parts
 GET		/myaccount							controllers.Application.myAccount
+GET     /users      controllers.Auth.users
+GET     /updateUser/:email      controllers.Auth.updateUser(email: String)
+POST     /updateUser/:email      controllers.Auth.handleUpdateUser(email: String)
+GET     /deleteUser/:email      controllers.Auth.deleteUser(email: String)
 
 # Fix requests
 GET     /makeARequest   controllers.Application.startMakeARequest
