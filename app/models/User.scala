@@ -33,7 +33,7 @@ case class User(
 
 object User extends MongoDatabase {
 
-  val roles = Seq("serviceA", "serviceB", "master")
+  val roles = Seq("serviceA", "master")
 
   def users: Future[List[User]] = findAllUsers()
 

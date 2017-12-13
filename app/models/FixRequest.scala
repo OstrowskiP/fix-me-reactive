@@ -6,6 +6,7 @@ import pl.lodz.p.edu.dao.MongoDatabase
 import play.api.i18n.Messages
 import reactivemongo.bson.BSONObjectID
 
+import scala.collection.immutable.HashMap
 import scala.concurrent.Future
 import scala.util.{ Failure, Success }
 
@@ -25,25 +26,45 @@ case class FixRequest(
   description: String,
   repairDate: String,
   repairTime: String,
-  requestStatus: RequestStatus,
-  partsUsed: List[Part],
+  requestStatus: String,
+  partsUsed: List[String],
   serviceCost: Double,
   partsCost: Double,
   totalCost: Double
 )
 
-sealed trait RequestStatus {
-  val name: String
-}
-case class AwaitingConfirmation(name: String = "requeststatus.awaitingconfirmation") extends RequestStatus
-case class Confirmed(name: String = "requeststatus.confirmed") extends RequestStatus
-case class InProgress(name: String = "requeststatus.inprogress") extends RequestStatus
-case class Fixed(name: String = "requeststatus.fixed") extends RequestStatus
-case class Shipped(name: String = "requeststatus.shipped") extends RequestStatus
-case class Canceled(name: String = "requeststatus.canceled") extends RequestStatus
-case class Completed(name: String = "requeststatus.completed") extends RequestStatus
+//sealed trait RequestStatus {
+//  val name: String
+//}
+//case class AwaitingConfirmation(name: String = "requeststatus.awaitingconfirmation") extends RequestStatus
+//case class Confirmed(name: String = "requeststatus.confirmed") extends RequestStatus
+//case class InProgress(name: String = "requeststatus.inprogress") extends RequestStatus
+//case class Fixed(name: String = "requeststatus.fixed") extends RequestStatus
+//case class Shipped(name: String = "requeststatus.shipped") extends RequestStatus
+//case class Canceled(name: String = "requeststatus.canceled") extends RequestStatus
+//case class Completed(name: String = "requeststatus.completed") extends RequestStatus
 
 object FixRequest extends MongoDatabase {
+
+  //  val requestStatuses: Map[String, RequestStatus] = HashMap(
+  //    "requeststatus.awaitingconfirmation" -> AwaitingConfirmation(),
+  //    "requeststatus.confirmed" -> Confirmed(),
+  //    "requeststatus.inprogress" -> InProgress(),
+  //    "requeststatus.fixed" -> Fixed(),
+  //    "requeststatus.shipped" -> Shipped(),
+  //    "requeststatus.canceled" -> Canceled(),
+  //    "requeststatus.completed" -> Completed()
+  //  )
+
+  val requestStatuses: List[String] = List(
+    "requeststatus.awaitingconfirmation",
+    "requeststatus.confirmed",
+    "requeststatus.inprogress",
+    "requeststatus.fixed",
+    "requeststatus.shipped",
+    "requeststatus.canceled",
+    "requeststatus.completed"
+  )
 
   def fixRequests: Future[List[FixRequest]] = findAllFixRequests()
 

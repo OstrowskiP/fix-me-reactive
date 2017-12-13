@@ -11,6 +11,7 @@ field.phone=Phone number
 field.password=Password
 field.password.repeat=Repeat password
 field.services=Access level
+field.parts=Parts used
 
 submit=Submit
 reset=Reset
@@ -163,9 +164,9 @@ makearequest.track.repairdate=Repair date
 makearequest.track.repairtime=Repair time
 makearequest.track.status=Request status
 makearequest.track.partsused=Parts used
-makearequest.track.cost.service=Service cost
-makearequest.track.cost.parts=Parts cost
-makearequest.track.cost.total=Total cost
+makearequest.track.cost.service=Service cost (PLN)
+makearequest.track.cost.parts=Parts cost (PLN)
+makearequest.track.cost.total=Total cost (PLN)
 makearequest.track.id=Request ID
 makearequest.track.button=Track your request
 makearequest.track.title=Request details
@@ -202,3 +203,12 @@ requeststatus.fixed=Fixed
 requeststatus.shipped=Shipped
 requeststatus.canceled=Canceled
 requeststatus.completed=Completed
+
+################################################################################################
+# Users management
+
+users.title=Users
+users.email=Email
+users.nick=Nick
+users.firstname=First name
+users.lastlame=Last name

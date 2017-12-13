@@ -11,6 +11,7 @@ field.phone=Numer telefonu
 field.password=Hasło
 field.password.repeat=Powtórz hasło
 field.services=Poziom uprawnień
+field.parts=Użyte części
 
 submit=OK
 reset=Zresetuj
@@ -160,9 +161,9 @@ makearequest.track.repairdate=Preferowana data naprawy
 makearequest.track.repairtime=Preferowana godzina naprawy
 makearequest.track.status=Status zgłoszenia
 makearequest.track.partsused=Użyte części
-makearequest.track.cost.service=Koszt usługi
-makearequest.track.cost.parts=Koszt części
-makearequest.track.cost.total=Całkowity koszt
+makearequest.track.cost.service=Koszt usługi (ZŁ)
+makearequest.track.cost.parts=Koszt części (ZŁ)
+makearequest.track.cost.total=Całkowity koszt (ZŁ)
 makearequest.track.id=ID zgłoszenia
 makearequest.track.button=Śledź zgłoszenie
 makearequest.track.title=Szczegóły zgłoszenia
@@ -199,3 +200,12 @@ requeststatus.fixed=Naprawione
 requeststatus.shipped=Dostarczone
 requeststatus.canceled=Anulowane
 requeststatus.completed=Zamknięte
+
+################################################################################################
+# Users management
+
+users.title=Użytkownicy
+users.email=Email
+users.nick=Nick
+users.firstname=Imię
+users.lastlame=Nazwisko

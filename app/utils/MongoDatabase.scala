@@ -37,9 +37,9 @@ trait MongoDatabase {
 
   implicit def userReader: BSONDocumentReader[User] = Macros.reader[User]
 
-  implicit def requestStatusWriter: BSONDocumentWriter[RequestStatus] = derived.encoder[RequestStatus]
-
-  implicit def requestStatusReader: BSONDocumentReader[RequestStatus] = derived.decoder[RequestStatus]
+  //  implicit def requestStatusWriter: BSONDocumentWriter[RequestStatus] = derived.encoder[RequestStatus]
+  //
+  //  implicit def requestStatusReader: BSONDocumentReader[RequestStatus] = derived.decoder[RequestStatus]
 
   implicit def fixRequestWriter: BSONDocumentWriter[FixRequest] = Macros.writer[FixRequest]
 

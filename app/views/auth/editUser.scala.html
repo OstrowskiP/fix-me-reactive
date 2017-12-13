@@ -1,15 +1,16 @@
-@(partForm: Form[User], email: String)(implicit request: RequestHeader, user: User, messages: Messages)
+@(userEditForm: Form[User], email: String)(implicit request: RequestHeader, user: User, messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.routes
 @views.html.templates.logged(Messages("edit.account.title")) {
     @b3.formCSRF(routes.Auth.handleUpdateUser(email)) {
         <h1 class="text-primary">@Messages("edit.account.title")</h1>
         <fieldset>
-            @b3.text(partForm("firstName"), '_label -> Messages("field.firstname"), 'autofocus -> true)
-            @b3.text(partForm("lastName"), '_label -> Messages("field.lastname"))
-            @b3.text(partForm("nick"), '_label -> Messages("field.nick"))
-            @b3.text(partForm("address"), '_label -> Messages("field.address"))
-            @b3.text(partForm("phoneNr"), '_label -> Messages("field.phone"))
+            @b3.text(userEditForm("firstName"), '_label -> Messages("field.firstname"), 'autofocus -> true)
+            @b3.text(userEditForm("lastName"), '_label -> Messages("field.lastname"))
+            @b3.text(userEditForm("nick"), '_label -> Messages("field.nick"))
+            @b3.text(userEditForm("address"), '_label -> Messages("field.address"))
+            @b3.text(userEditForm("phoneNr"), '_label -> Messages("field.phone"))
+            @b3.select(userEditForm("services"), options = User.roles.map(s => (s, s)), '_label -> Messages("field.services"), 'multiple -> true )
             @b3.submit('class -> "btn btn-primary btn-block") {
                 @Messages("edit.account.save")
             }

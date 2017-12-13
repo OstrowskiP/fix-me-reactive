@@ -53,12 +53,18 @@
                 <tr>
                     <td>@Messages("makearequest.track.status")</td>
                     <td>
-                        @Messages(fixRequest.requestStatus.name)
+                        @Messages(fixRequest.requestStatus)
                     </td>
                 </tr>
                 <tr>
                     <td>@Messages("makearequest.track.partsused")</td>
-                    <td><table>@fixRequest.partsUsed.map {part =><tr>@part.name</tr>}</table></td>
+                    <td>
+                        <table>
+                        @fixRequest.partsUsed.map {part =>
+                            <tr><td>@part</td></tr>
+                        }
+                        </table>
+                    </td>
                 </tr>
                 <tr>
                     <td>@Messages("makearequest.track.cost.service")</td>

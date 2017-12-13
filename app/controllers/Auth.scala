@@ -65,7 +65,7 @@ class Auth @Inject() (
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
-      "services" -> list(nonEmptyText)
+      "services" -> ignored(List("serviceA"): List[String])
     )(User.apply)(User.unapply)
   )
 
@@ -81,6 +81,20 @@ class Auth @Inject() (
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
       "services" -> ignored(List(): List[String])
+    )(User.apply)(User.unapply)
+  )
+  val editUserForm = Form(
+    mapping(
+      "id" -> ignored(None: Option[Long]),
+      "email" -> ignored("": String),
+      "emailConfirmed" -> ignored(false: Boolean),
+      "address" -> nonEmptyText,
+      "phoneNr" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "password" -> ignored("": String),
+      "nick" -> nonEmptyText,
+      "firstName" -> nonEmptyText,
+      "lastName" -> nonEmptyText,
+      "services" -> list(nonEmptyText)
     )(User.apply)(User.unapply)
   )
 
@@ -378,7 +392,7 @@ class Auth @Inject() (
       Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
     } else {
       User.findByEmail(email).map {
-        case Some(user) => Ok(viewsAuth.editUser(editAccountForm.fill(user), email))
+        case Some(user) => Ok(viewsAuth.editUser(editUserForm.fill(user), email))
         case None => Redirect(routes.Auth.users).flashing("error" -> "Couldn't find user")
       }
     }
@@ -388,7 +402,7 @@ class Auth @Inject() (
     if (request.identity.email == email) {
       Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
     } else {
-      editAccountForm.bindFromRequest.fold(
+      editUserForm.bindFromRequest.fold(
         formWithErrors => Future.successful(BadRequest(viewsAuth.editUser(formWithErrors, email))),
         userUpdated => {
           User.findByEmail(email).flatMap {
@@ -398,7 +412,8 @@ class Auth @Inject() (
                 lastName = userUpdated.lastName,
                 nick = userUpdated.nick,
                 address = userUpdated.address,
-                phone = userUpdated.phone
+                phone = userUpdated.phone,
+                services = userUpdated.services
               )).map {
                 case Some(_) => Redirect(routes.Auth.users).flashing("success" -> "User updated")
                 case None => Redirect(routes.Auth.users).flashing("error" -> "Couldn't save user")
