@@ -9,7 +9,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.format.Formats._
 import play.api.data.validation.Constraints.maxLength
-import play.api.i18n.{ Lang, MessagesApi }
+import play.api.i18n.{ Lang, Messages, MessagesApi }
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
 import views.html.makeARequest
@@ -27,7 +27,29 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText,
       "customerLastname" -> nonEmptyText,
       "customerAddress" -> nonEmptyText,
-      "customerPhone" -> nonEmptyText,
+      "customerPhone" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "deviceType" -> nonEmptyText,
+      "deviceManufacturer" -> nonEmptyText,
+      "deviceModel" -> nonEmptyText,
+      "description" -> nonEmptyText,
+      "repairDate" -> nonEmptyText,
+      "repairTime" -> nonEmptyText,
+      "requestStatus" -> ignored(AwaitingConfirmation(): RequestStatus),
+      "partsUsed" -> ignored(List[Part]()),
+      "serviceCost" -> ignored(0.0),
+      "partsCost" -> ignored(0.0),
+      "totalCost" -> ignored(0.0)
+    )(FixRequest.apply)(FixRequest.unapply)
+  )
+
+  val editRequestForm = Form(
+    mapping(
+      "_id" -> ignored(None: Option[BSONObjectID]),
+      "userEmail" -> ignored(""),
+      "customerName" -> nonEmptyText,
+      "customerLastname" -> nonEmptyText,
+      "customerAddress" -> nonEmptyText,
+      "customerPhone" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
       "deviceType" -> nonEmptyText,
       "deviceManufacturer" -> nonEmptyText,
       "deviceModel" -> nonEmptyText,
@@ -101,6 +123,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       }
     )
   }
+
   def handleUpdatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
     partForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
@@ -116,20 +139,38 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
   def updatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
     Part.findPart(partId).map {
       case Some(part) => Ok(views.html.editPart(partForm.fill(part), part._id.map(_.stringify)))
-      case None => BadRequest(views.html.editPart(partForm.withError("name", "Couldn't find part")))
+      case None => Redirect(routes.Application.parts).flashing("error" -> "Couldn't find part")
     }
   }
 
   def deletePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
     Part.remove(partId).map {
-      case Some(x) => Redirect(routes.Application.parts)
-      case None => Redirect(routes.Application.parts)
+      case Some(_) => Redirect(routes.Application.parts).flashing("success" -> "Deleted part")
+      case None => Redirect(routes.Application.parts).flashing("error" -> "Couldn't delete part")
     }
   }
 
   def startMakeARequest = UserAwareAction { implicit request =>
     request.identity match {
-      case Some(_) => Redirect(routes.Application.index)
+      case Some(user) => Ok(views.html.makeARequest(makeARequestForm.fill(FixRequest(
+        _id = None,
+        userEmail = user.email,
+        customerName = user.firstName,
+        customerLastname = user.lastName,
+        customerAddress = user.address,
+        customerPhone = user.phone,
+        deviceType = "",
+        deviceManufacturer = "",
+        deviceModel = "",
+        description = "",
+        repairDate = "",
+        repairTime = "",
+        requestStatus = AwaitingConfirmation(),
+        partsUsed = List(),
+        serviceCost = 0.0,
+        partsCost = 0.0,
+        totalCost = 0.0
+      ))))
       case None => Ok(views.html.makeARequest(makeARequestForm))
     }
   }
@@ -140,7 +181,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       fixRequest => {
         FixRequest.save(fixRequest).map {
           case Some(savedFixRequest) => Ok(views.html.requestMade(savedFixRequest))
-          case None => BadRequest(makeARequest(makeARequestForm.withError("customerName", "Couldn't complete making request")))
+          case None => Ok(views.html.makeARequest(makeARequestForm.fill(fixRequest))).flashing("error" -> "Making request failed")
         }
       }
     )
@@ -167,9 +208,11 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
   }
 
   def myRequests = SecuredAction(WithService("serviceA")).async { implicit request =>
-    FixRequest.findUsersRequests(request.identity.email).map { fixRequests =>
-      Ok(views.html.myRequests(fixRequests))
-    }
+    (if (request.identity.services.contains("master")) FixRequest.fixRequests
+    else FixRequest.findUsersRequests(request.identity.email))
+      .map { fixRequests =>
+        Ok(views.html.myRequests(fixRequests))
+      }
   }
 
   def cancelRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
@@ -180,6 +223,46 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       }
       case None => Future.successful(Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't cancel request"))
     }
+  }
+
+  def updateRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+    FixRequest.findById(requestId).map {
+      case Some(fixRequest) =>
+        if (request.identity.services.contains("master") || fixRequest.userEmail == request.identity.email)
+          Ok(views.html.editRequest(editRequestForm.fill(fixRequest), requestId))
+        else
+          Redirect(routes.Application.myRequests).flashing("error" -> "You don't have any matching requests")
+      case None => Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't find request")
+    }
+  }
+
+  def handleUpdateRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+    editRequestForm.bindFromRequest.fold(
+      formWithErrors => Future.successful(BadRequest(views.html.editRequest(formWithErrors, requestId))),
+      updatedFixRequest => {
+        FixRequest.findById(requestId).flatMap {
+          case Some(fixRequestToUpdate) =>
+            if (request.identity.services.contains("master") || fixRequestToUpdate.userEmail == request.identity.email) {
+              FixRequest.update(fixRequestToUpdate.copy(
+                customerName = updatedFixRequest.customerName,
+                customerLastname = updatedFixRequest.customerLastname,
+                customerAddress = updatedFixRequest.customerAddress,
+                customerPhone = updatedFixRequest.customerPhone,
+                deviceType = updatedFixRequest.deviceType,
+                deviceManufacturer = updatedFixRequest.deviceManufacturer,
+                deviceModel = updatedFixRequest.deviceModel,
+                description = updatedFixRequest.description,
+                repairDate = updatedFixRequest.repairDate,
+                repairTime = updatedFixRequest.repairTime
+              )).flatMap {
+                case Some(_) => Future.successful(Redirect(routes.Application.myRequests).flashing("success" -> "Request saved successfully"))
+                case None => Future.successful(Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't save request"))
+              }
+            } else Future.successful(Redirect(routes.Application.myRequests).flashing("error" -> "You don't have any matching requests"))
+          case None => Future.successful(Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't save request"))
+        }
+      }
+    )
   }
 
   def selectLang(lang: String) = UserAwareAction { implicit request =>

@@ -21,9 +21,12 @@
                         <img height="26" src="../../../public/images/menu_items/my_requests.png">
                     </a></li>
             }
-            @withService("serviceA", "serviceB") {
-                <li class="@("active".when(tab == "serviceA_or_serviceB"))"><a href="@routes.Application.serviceAorServiceB">
-                    A || B</a></li>
+            @withService("serviceA") {
+                <li class="@("active".when(tab == "makearequest"))">
+                    <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
+                        <img height="26" src="../../../public/images/menu_items/make_request.png">
+                    </a>
+                </li>
             }
             @withServices("serviceA", "serviceB") {
                 <li class="@("active".when(tab == "serviceA_and_serviceB"))"><a href="@routes.Application.serviceAandServiceB">

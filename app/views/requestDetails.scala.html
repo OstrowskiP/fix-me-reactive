@@ -73,6 +73,12 @@
                     <td>@fixRequest.totalCost</td>
                 </tr>
             </table>
+            @loggedUser match {
+                case Some(_) => {
+                    <a class="btn btn-default btn-block" href="@routes.Application.myRequests">@Messages("back")</a>
+                }
+                case None => {}
+            }
         }
         case None => {
             <p>@Html(Messages("makearequest.track.error", requestId))</p>

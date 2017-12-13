@@ -39,8 +39,6 @@ object User extends MongoDatabase {
   def findByEmail(email: String): Future[Option[User]] = findUserByEmail(email)
 
   def save(user: User): Future[Option[User]] = updateUser(user)
-  //
-  //  def update(email:String, address: String, phone: String, nick: String, firstName: String, lastName: String) = updateUserDetails()
 
   def remove(email: String): Future[Unit] = removeUser(email)
 }

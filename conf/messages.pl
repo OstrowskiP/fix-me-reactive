@@ -166,6 +166,7 @@ makearequest.track.cost.total=Całkowity koszt
 makearequest.track.id=ID zgłoszenia
 makearequest.track.button=Śledź zgłoszenie
 makearequest.track.title=Szczegóły zgłoszenia
+editrequest.title=Edytuj szczegóły zgłoszenia
 
 ################################################################################################
 # MY REQUESTS

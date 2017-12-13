@@ -1,0 +1,27 @@
+@(fixRequestForm: Form[FixRequest], oldRequestId: String)(implicit request: RequestHeader, user: User, messages: Messages)
+@import b3.vertical.fieldConstructor
+@import controllers.routes
+@views.html.templates.logged(Messages("editrequest.title")) {
+    @tags.alertFromRequest(request, "error")
+    @b3.formCSRF(routes.Application.handleUpdateRequest(oldRequestId)) {
+        <h1 class="text-primary">@Messages("editrequest.title")</h1>
+        <fieldset>
+            @b3.text(fixRequestForm("customerName"), '_label -> Messages("makearequest.customer.name"))
+            @b3.text(fixRequestForm("customerLastname"), '_label -> Messages("makearequest.customer.lastname"))
+            @b3.text(fixRequestForm("customerAddress"), '_label -> Messages("makearequest.customer.address"))
+            @b3.text(fixRequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"))
+            @b3.text(fixRequestForm("deviceType"), '_label -> Messages("makearequest.device.type"))
+            @b3.text(fixRequestForm("deviceManufacturer"), '_label -> Messages("makearequest.device.manufacturer"))
+            @b3.text(fixRequestForm("deviceModel"), '_label -> Messages("makearequest.device.model"))
+            @b3.text(fixRequestForm("description"), '_label -> Messages("makearequest.description"))
+            @b3.date(fixRequestForm("repairDate"), '_label -> Messages("makearequest.repairdate"))
+            @b3.text(fixRequestForm("repairTime"), '_label -> Messages("makearequest.repairtime"))
+            @b3.submit('class -> "btn btn-primary btn-block") {
+                @Messages("parts.save")
+            }
+            <a class="btn btn-default btn-block" href="@routes.Application.myRequests">@Messages("back")</a>
+        </fieldset>
+    }
+
+
+}

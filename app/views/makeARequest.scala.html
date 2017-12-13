@@ -1,28 +1,39 @@
-@(makeARequestForm: Form[FixRequest])(implicit request: RequestHeader, messages: Messages)
+@(makeARequestForm: Form[FixRequest])(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.routes
-@views.html.templates.default(title = "Make a request", None, tab = "makearequest") {
-        @tags.alertFromRequest(request, "error")
-        @b3.formCSRF(routes.Application.handleMakeARequest) {
-            <fieldset>
-                <legend>@Messages("makearequest.title")</legend>
-                @b3.text(makeARequestForm("customerName"), '_label -> Messages("makearequest.customer.name"), 'placeholder -> "John")
-                @b3.text(makeARequestForm("customerLastname"), '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
-                @b3.text(makeARequestForm("customerAddress"), '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
-                @b3.text(makeARequestForm("userEmail"), '_label -> Messages("makearequest.customer.email"), 'placeholder -> "a@a.com")
-                @b3.text(makeARequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000-000-000")
-                @b3.text(makeARequestForm("deviceType"), '_label -> Messages("makearequest.device.type"), 'placeholder -> "TV")
-                @b3.text(makeARequestForm("deviceManufacturer"), '_label -> Messages("makearequest.device.manufacturer"), 'placeholder -> "OKIL")
-                @b3.text(makeARequestForm("deviceModel"), '_label -> Messages("makearequest.device.model"), 'placeholder -> "Turbo")
-                @b3.text(makeARequestForm("description"), '_label -> Messages("makearequest.description"), 'placeholder -> "No sound")
-                @b3.date(makeARequestForm("repairDate"), '_label -> Messages("makearequest.repairdate"), 'placeholder -> "26-12-2017")
-                @b3.text(makeARequestForm("repairTime"), '_label -> Messages("makearequest.repairtime"), 'placeholder -> "15:45")
-                @b3.submit('class -> "btn btn-primary btn-block") {
-                    @Messages("makearequest.send")
+@views.html.templates.default(title = "Make a request", loggedUser, tab = "makearequest") {
+    @tags.alertFromRequest(request, "error")
+    @b3.formCSRF(routes.Application.handleMakeARequest) {
+        <fieldset>
+            <legend>@Messages("makearequest.title")</legend>
+            @loggedUser match {
+                case Some(user) => {
+                    @b3.text(makeARequestForm("customerName"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.name"), 'placeholder -> "John")
+                    @b3.text(makeARequestForm("customerLastname"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
+                    @b3.text(makeARequestForm("customerAddress"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
+                    @b3.text(makeARequestForm("userEmail"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.email"), 'placeholder -> "a@a.com")
+                    @b3.text(makeARequestForm("customerPhone"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000000000")
                 }
-                <div class="post-form-opts">
-                    <p>@Messages("signup.signin.question") <a href="@routes.Auth.signIn">@Messages("signup.signin")</a></p>
-                </div>
-            </fieldset>
-        }
+                case None => {
+                    @b3.text(makeARequestForm("customerName"), '_label -> Messages("makearequest.customer.name"), 'placeholder -> "John")
+                    @b3.text(makeARequestForm("customerLastname"), '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
+                    @b3.text(makeARequestForm("customerAddress"), '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
+                    @b3.text(makeARequestForm("userEmail"), '_label -> Messages("makearequest.customer.email"), 'placeholder -> "a@a.com")
+                    @b3.text(makeARequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000000000")
+                }
+            }
+            @b3.text(makeARequestForm("deviceType"), '_label -> Messages("makearequest.device.type"), 'placeholder -> "TV")
+            @b3.text(makeARequestForm("deviceManufacturer"), '_label -> Messages("makearequest.device.manufacturer"), 'placeholder -> "OKIL")
+            @b3.text(makeARequestForm("deviceModel"), '_label -> Messages("makearequest.device.model"), 'placeholder -> "Turbo")
+            @b3.text(makeARequestForm("description"), '_label -> Messages("makearequest.description"), 'placeholder -> "No sound")
+            @b3.date(makeARequestForm("repairDate"), '_label -> Messages("makearequest.repairdate"), 'placeholder -> "26-12-2017")
+            @b3.text(makeARequestForm("repairTime"), '_label -> Messages("makearequest.repairtime"), 'placeholder -> "15:45")
+            @b3.submit('class -> "btn btn-primary btn-block") {
+                @Messages("makearequest.send")
+            }
+            <div class="post-form-opts">
+                <p>@Messages("signup.signin.question") <a href="@routes.Auth.signIn">@Messages("signup.signin")</a></p>
+            </div>
+        </fieldset>
+    }
 }

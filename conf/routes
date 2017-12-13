@@ -35,6 +35,8 @@ POST     /trackRequest   controllers.Application.handleTrackRequest
 GET     /trackRequest/:requestId    controllers.Application.trackRequest(requestId:String)
 GET     /myRequests     controllers.Application.myRequests
 GET     /cancelRequest/:requestId  controllers.Application.cancelRequest(requestId: String)
+GET     /updateRequest/:requestId   controllers.Application.updateRequest(requestId: String)
+POST     /updateRequest/:requestId   controllers.Application.handleUpdateRequest(requestId: String)
 
 # Parts
 GET     /addPart        controllers.Application.addPart

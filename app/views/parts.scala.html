@@ -1,6 +1,9 @@
-@(parts: List[Part])(implicit user: User, messages: Messages)
+@(parts: List[Part])(implicit request: RequestHeader, user: User, messages: Messages)
 
 @views.html.templates.logged(title = Messages("parts.title"), tab = "parts") {
+
+    @tags.alertFromRequest(request, "success")
+    @tags.alertFromRequest(request, "error")
 
     <h1 class="text-primary">@Messages("parts.title")
         <a class="btn btn-default btn-sm pull-right" href="@routes.Application.addPart">@Messages("parts.add")</a>

@@ -92,7 +92,7 @@ trait MongoDatabase {
   protected def findAllFixRequests(): Future[List[FixRequest]] =
     fixRequestsCollection.flatMap(_.find(document()).cursor[FixRequest]().collect[List](25))
 
-  def findAllFixRequestsForUser(email: String) =
+  protected def findAllFixRequestsForUser(email: String) =
     fixRequestsCollection.flatMap(_.find(document("userEmail" -> email)).cursor[FixRequest]().collect[List](25))
 
   protected def findFixRequestById(id: BSONObjectID): Future[Option[FixRequest]] =

@@ -1,6 +1,6 @@
-@(fixRequest: FixRequest)(implicit request: RequestHeader, messages: Messages)
+@(fixRequest: FixRequest)(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 
-@views.html.templates.default(title = Messages("makearequest.requestmade.title"), None, tab = "requestmade") {
+@views.html.templates.default(title = Messages("makearequest.requestmade.title"), loggedUser, tab = "requestmade") {
     <h1 class="text-primary">@Messages("makearequest.requestmade.title")</h1>
     <p>@Html(Messages("makearequest.requestmade.info", fixRequest._id.get.stringify))</p>
 }
