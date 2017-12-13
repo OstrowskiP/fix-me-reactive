@@ -1,4 +1,4 @@
-@()(implicit loggedUser: Option[User], messages: Messages)
+@()(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 
 @import views.html.tags.auth._
 @import controllers.routes
@@ -10,6 +10,8 @@
 }}
 
 @views.html.templates.default(title = "Home", loggedUser, tab = "index") {
+	@tags.alertFromRequest(request, "success")
+	@tags.alertFromRequest(request, "error")
 		
 		<h1 class="text-primary">@Messages("index.title")</h1>
 		

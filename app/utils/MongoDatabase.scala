@@ -74,24 +74,26 @@ trait MongoDatabase {
   /* Fix requests DAO */
 
   protected def createFixRequest(fixRequest: FixRequest): Future[Option[FixRequest]] = {
-    val res = fixRequestsCollection.flatMap(_.insert(fixRequest))
+    val newFixRequest: FixRequest = fixRequest.copy(_id = Some(BSONObjectID.generate()))
+    val res = fixRequestsCollection.flatMap(_.insert(newFixRequest))
     Await.ready(res, Duration(1, "minute"))
-    findFixRequestById(fixRequest._id.get)
+    findFixRequestById(newFixRequest._id.get)
   }
-
-  //    fixRequestsCollection.flatMap(_.insert(fixRequest).map(_ => {}))
 
   protected def updateFixRequest(fixRequest: FixRequest): Future[Option[FixRequest]] = {
     val selector = document(
       "_id" -> fixRequest._id
     )
-    val res = fixRequestsCollection.flatMap(_.update(selector, fixRequest, upsert = true))
+    val res = fixRequestsCollection.flatMap(_.update(selector, fixRequest))
     Await.ready(res, Duration(1, "minute"))
     findFixRequestById(fixRequest._id.get)
   }
 
   protected def findAllFixRequests(): Future[List[FixRequest]] =
     fixRequestsCollection.flatMap(_.find(document()).cursor[FixRequest]().collect[List](25))
+
+  def findAllFixRequestsForUser(email: String) =
+    fixRequestsCollection.flatMap(_.find(document("userEmail" -> email)).cursor[FixRequest]().collect[List](25))
 
   protected def findFixRequestById(id: BSONObjectID): Future[Option[FixRequest]] =
     fixRequestsCollection.flatMap(_.find(document("_id" -> id)).one[FixRequest])

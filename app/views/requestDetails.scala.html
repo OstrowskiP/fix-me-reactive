@@ -1,7 +1,7 @@
-@(requestId: String, fixRequestOpt: Option[FixRequest])(implicit request: RequestHeader, messages: Messages)
+@(requestId: String, fixRequestOpt: Option[FixRequest])(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 
 
-@views.html.templates.default(title = Messages("makearequest.track.details.title"), None, tab = "requestdetails") {
+@views.html.templates.default(title = Messages("makearequest.track.details.title"), loggedUser, tab = "requestdetails") {
 
     @tags.alertFromRequest(request, "success")
 

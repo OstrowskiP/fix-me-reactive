@@ -14,11 +14,11 @@ import scala.util.{ Failure, Success }
  */
 case class FixRequest(
   _id: Option[BSONObjectID],
-  userEmail: Option[String],
-  customerName: Option[String],
-  customerLastname: Option[String],
-  customerAddress: Option[String],
-  customerPhone: Option[String],
+  userEmail: String,
+  customerName: String,
+  customerLastname: String,
+  customerAddress: String,
+  customerPhone: String,
   deviceType: String,
   deviceManufacturer: String,
   deviceModel: String,
@@ -47,11 +47,14 @@ object FixRequest extends MongoDatabase {
 
   def fixRequests: Future[List[FixRequest]] = findAllFixRequests()
 
+  def findUsersRequests(email: String): Future[List[FixRequest]] = findAllFixRequestsForUser(email)
+
   def findById(id: String): Future[Option[FixRequest]] = BSONObjectID.parse(id) match {
     case Success(bsonId) => findFixRequestById(bsonId)
     case Failure(_) => Future.successful(None)
   }
 
   def save(fixRequest: FixRequest): Future[Option[FixRequest]] = createFixRequest(fixRequest)
-  //    updateFixRequest(fixRequest)
+
+  def update(fixRequest: FixRequest): Future[Option[FixRequest]] = updateFixRequest(fixRequest)
 }

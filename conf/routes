@@ -33,6 +33,8 @@ POST    /makeARequest   controllers.Application.handleMakeARequest
 GET     /trackRequest   controllers.Application.startTrackRequest
 POST     /trackRequest   controllers.Application.handleTrackRequest
 GET     /trackRequest/:requestId    controllers.Application.trackRequest(requestId:String)
+GET     /myRequests     controllers.Application.myRequests
+GET     /cancelRequest/:requestId  controllers.Application.cancelRequest(requestId: String)
 
 # Parts
 GET     /addPart        controllers.Application.addPart

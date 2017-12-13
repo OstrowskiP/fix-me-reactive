@@ -1,0 +1,50 @@
+@(fixRequests: List[FixRequest])(implicit request: RequestHeader, user: User, messages: Messages)
+
+@import controllers.routes
+
+@views.html.templates.logged(title = Messages("myrequests.title"), tab = "myrequests") {
+
+    @tags.alertFromRequest(request, "success")
+    @tags.alertFromRequest(request, "error")
+
+    <h1>@Messages("myrequests.title")
+        @*<a class="btn btn-default btn-sm pull-right" href="@routes.Auth.changePassword">@Messages("changepass")</a>*@
+        @*<a class="btn btn-default btn-sm pull-right" href="@routes.Auth.updateAccount">@Messages("edit.account.title")</a>*@
+    </h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Messages("myrequests.table.id")</th>
+                <th>@Messages("myrequests.table.type")</th>
+                <th>@Messages("myrequests.table.manufacturer")</th>
+                <th>@Messages("myrequests.table.model")</th>
+                <th>@Messages("myrequests.table.date")</th>
+                <th>@Messages("myrequests.table.status")</th>
+            </tr>
+        </thead>
+        <tbody>
+        @fixRequests.map { fixRequest =>
+            @if(fixRequest.requestStatus.isInstanceOf[Canceled]) {
+                <tr class="disabled">
+            } else {
+                <tr>
+                }
+        <td class="id"><a href="@routes.Application.trackRequest(fixRequest._id.get.stringify)">@fixRequest._id.get.stringify</a></td>
+        <td class="type">@fixRequest.deviceType</td>
+        <td class="manufacturer">@fixRequest.deviceManufacturer</td>
+        <td class="model">@fixRequest.deviceModel</td>
+        <td class="date">@fixRequest.repairDate</td>
+        <td class="status">@Messages(fixRequest.requestStatus.name)</td>
+        <td>
+            @*<a class="pull-right mini-icon" href="@routes.Application.deletePart(part._id.get.stringify)">*@
+            @*<img height="15" src="../../public/images/delete.png">*@
+            @*</a>*@
+        <a class="pull-right mini-icon" href="@routes.Application.cancelRequest(fixRequest._id.get.stringify)">
+            <img height="15" src="../../public/images/cancel.png">
+        </a>
+        </td>
+        </tr>
+        }
+    </table>
+}

@@ -25,6 +25,7 @@ topbar.myaccount=Moje konto
 topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 topbar.fixrequest=Zgłoś żądanie naprawy
 topbar.trackrequest=Śledź zgłoszenie
+topbar.myrequests=Moje zgłoszenia
 
 ################################################################################################
 # INDEX
@@ -131,6 +132,7 @@ makearequest.send=Wyślij zgłoszenie
 makearequest.customer.name=Imię
 makearequest.customer.lastname=Nazwisko
 makearequest.customer.address=Adres
+makearequest.customer.email=Email
 makearequest.customer.phone=Numer telefonu
 makearequest.device.type=Typ urządzenia
 makearequest.device.manufacturer=Producent
@@ -163,7 +165,18 @@ makearequest.track.cost.parts=Koszt części
 makearequest.track.cost.total=Całkowity koszt
 makearequest.track.id=ID zgłoszenia
 makearequest.track.button=Śledź zgłoszenie
-makearequest.track.title=Śledzenie zgłoszenia
+makearequest.track.title=Szczegóły zgłoszenia
+
+################################################################################################
+# MY REQUESTS
+
+myrequests.title=Moje zgłoszenia
+myrequests.table.id=ID
+myrequests.table.type=Typ
+myrequests.table.manufacturer=Producent
+myrequests.table.model=Model
+myrequests.table.date=Data
+myrequests.table.status=Status
 
 ################################################################################################
 # PARTS

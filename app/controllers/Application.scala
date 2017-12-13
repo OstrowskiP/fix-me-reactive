@@ -8,6 +8,7 @@ import play.api._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.format.Formats._
+import play.api.data.validation.Constraints.maxLength
 import play.api.i18n.{ Lang, MessagesApi }
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
@@ -22,12 +23,11 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
   val makeARequestForm = Form(
     mapping(
       "_id" -> ignored(None: Option[BSONObjectID]),
-      "userEmail" -> ignored(None: Option[String]),
-      //      "userEmail" -> email.verifying(maxLength(250)),
-      "customerName" -> optional(nonEmptyText),
-      "customerLastname" -> optional(nonEmptyText),
-      "customerAddress" -> optional(nonEmptyText),
-      "customerPhone" -> optional(nonEmptyText),
+      "userEmail" -> email.verifying(maxLength(250)),
+      "customerName" -> nonEmptyText,
+      "customerLastname" -> nonEmptyText,
+      "customerAddress" -> nonEmptyText,
+      "customerPhone" -> nonEmptyText,
       "deviceType" -> nonEmptyText,
       "deviceManufacturer" -> nonEmptyText,
       "deviceModel" -> nonEmptyText,
@@ -39,7 +39,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "serviceCost" -> ignored(0.0),
       "partsCost" -> ignored(0.0),
       "totalCost" -> ignored(0.0)
-    )(FixRequest.apply _)(FixRequest.unapply _)
+    )(FixRequest.apply)(FixRequest.unapply)
   )
 
   val trackRequestForm = Form(
@@ -162,8 +162,24 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )
   }
 
-  def trackRequest(requestId: String) = UnsecuredAction.async { implicit request =>
+  def trackRequest(requestId: String) = UserAwareAction.async { implicit request =>
     FixRequest.findById(requestId).map(fixRequestOpt => Ok(views.html.requestDetails(requestId, fixRequestOpt)))
+  }
+
+  def myRequests = SecuredAction(WithService("serviceA")).async { implicit request =>
+    FixRequest.findUsersRequests(request.identity.email).map { fixRequests =>
+      Ok(views.html.myRequests(fixRequests))
+    }
+  }
+
+  def cancelRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+    FixRequest.findById(requestId).flatMap {
+      case Some(fixRequest) => FixRequest.update(fixRequest.copy(requestStatus = Canceled())).map {
+        case Some(_) => Redirect(routes.Application.myRequests).flashing("success" -> "Successfully canceled request")
+        case None => Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't cancel request")
+      }
+      case None => Future.successful(Redirect(routes.Application.myRequests).flashing("error" -> "Couldn't cancel request"))
+    }
   }
 
   def selectLang(lang: String) = UserAwareAction { implicit request =>

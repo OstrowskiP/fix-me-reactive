@@ -25,6 +25,7 @@ topbar.myaccount=My account
 topbar.hello=Hello {0}!<br>Access level: {1}
 topbar.fixrequest=Fix request
 topbar.trackrequest=Track request
+topbar.myrequests=My requests
 
 ################################################################################################
 # INDEX
@@ -134,6 +135,7 @@ makearequest.send=Send request
 makearequest.customer.name=Name
 makearequest.customer.lastname=Lastname
 makearequest.customer.address=Address
+makearequest.customer.email=Email
 makearequest.customer.phone=Phone nr
 makearequest.device.type=Device type
 makearequest.device.manufacturer=Device manufacturer
@@ -166,7 +168,18 @@ makearequest.track.cost.parts=Parts cost
 makearequest.track.cost.total=Total cost
 makearequest.track.id=Request ID
 makearequest.track.button=Track your request
-makearequest.track.title=Request tracking
+makearequest.track.title=Request details
+
+################################################################################################
+# MY REQUESTS
+
+myrequests.title=My requests
+myrequests.table.id=ID
+myrequests.table.type=Type
+myrequests.table.manufacturer=Manufacturer
+myrequests.table.model=Model
+myrequests.table.date=Date
+myrequests.table.status=Status
 
 ################################################################################################
 # PARTS
