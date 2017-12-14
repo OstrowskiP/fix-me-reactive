@@ -12,6 +12,7 @@ field.password=Hasło
 field.password.repeat=Powtórz hasło
 field.services=Poziom uprawnień
 field.parts=Użyte części
+field.status=Status zgłoszenia
 
 submit=OK
 reset=Zresetuj

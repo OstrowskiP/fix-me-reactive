@@ -12,6 +12,7 @@ field.password=Password
 field.password.repeat=Repeat password
 field.services=Access level
 field.parts=Parts used
+field.status=Request status
 
 submit=Submit
 reset=Reset

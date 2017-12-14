@@ -17,7 +17,7 @@
                 @b3.date(fixRequestForm("repairDate"), '_label -> Messages("makearequest.repairdate"))
                 @b3.text(fixRequestForm("repairTime"), '_label -> Messages("makearequest.repairtime"))
                 @if(user.services.contains("master")) {
-                    @b3.select(fixRequestForm("requestStatus"), options = FixRequest.requestStatuses.map(s => (s,s)), '_label -> Messages("field.parts"), 'multiple -> false)
+                    @b3.select(fixRequestForm("requestStatus"), options = FixRequest.requestStatuses.map(s => (s,s)), '_label -> Messages("field.status"), 'multiple -> false)
                     @b3.select(fixRequestForm("partsUsed"), options = parts.map(part => (part.name, part.name)), '_label -> Messages("field.parts"), 'multiple -> true)
                     @b3.text(fixRequestForm("serviceCost"), '_label -> Messages("makearequest.track.cost.service"))
                 }
