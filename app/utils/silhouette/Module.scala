@@ -1,7 +1,6 @@
 package utils.silhouette
 
 import com.google.inject.{ AbstractModule, Provides }
-import net.codingwell.scalaguice.ScalaModule
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
 import com.mohiva.play.silhouette.api.crypto._
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
@@ -11,16 +10,16 @@ import com.mohiva.play.silhouette.api.{ Environment, EventBus, Silhouette, Silho
 import com.mohiva.play.silhouette.crypto.{ JcaCookieSigner, JcaCookieSignerSettings, JcaCrypter, JcaCrypterSettings }
 import com.mohiva.play.silhouette.impl.authenticators._
 import com.mohiva.play.silhouette.impl.providers._
-import com.mohiva.play.silhouette.impl.services._
 import com.mohiva.play.silhouette.impl.util._
 import com.mohiva.play.silhouette.password.BCryptPasswordHasher
-import com.mohiva.play.silhouette.persistence.daos.{ DelegableAuthInfoDAO, InMemoryAuthInfoDAO }
+import com.mohiva.play.silhouette.persistence.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.persistence.repositories.DelegableAuthInfoRepository
-import play.api.libs.concurrent.Execution.Implicits._
-import play.api.Configuration
+import models.{ MailTokenUser, User }
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-import models.{ User, MailTokenUser }
+import net.codingwell.scalaguice.ScalaModule
+import play.api.Configuration
+import play.api.libs.concurrent.Execution.Implicits._
 import utils.ErrorHandler
 
 /**
@@ -50,9 +49,9 @@ class Module extends AbstractModule with ScalaModule {
   /**
    * Provides the Silhouette environment.
    *
-   * @param userService The user service implementation.
+   * @param userService          The user service implementation.
    * @param authenticatorService The authentication service implementation.
-   * @param eventBus The event bus instance.
+   * @param eventBus             The event bus instance.
    * @return The Silhouette environment.
    */
   @Provides
@@ -107,12 +106,12 @@ class Module extends AbstractModule with ScalaModule {
   /**
    * Provides the authenticator service.
    *
-   * @param cookieSigner The cookie signer implementation.
-   * @param crypter The crypter implementation.
+   * @param cookieSigner         The cookie signer implementation.
+   * @param crypter              The crypter implementation.
    * @param fingerprintGenerator The fingerprint generator implementation.
-   * @param idGenerator The ID generator implementation.
-   * @param configuration The Play configuration.
-   * @param clock The clock instance.
+   * @param idGenerator          The ID generator implementation.
+   * @param configuration        The Play configuration.
+   * @param clock                The clock instance.
    * @return The authenticator service.
    */
   @Provides
@@ -143,7 +142,7 @@ class Module extends AbstractModule with ScalaModule {
   /**
    * Provides the credentials provider.
    *
-   * @param authInfoRepository The auth info repository implementation.
+   * @param authInfoRepository     The auth info repository implementation.
    * @param passwordHasherRegistry The password hasher registry.
    * @return The credentials provider.
    */

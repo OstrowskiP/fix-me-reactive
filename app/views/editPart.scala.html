@@ -2,15 +2,17 @@
 @import b3.vertical.fieldConstructor
 @import controllers.routes
 @views.html.templates.logged(Messages("parts.add")) {
-	@tags.alertFromRequest(request, "error")
+    @tags.alertFromRequest(request, "error")
     @oldPartId match {
         case Some(partId) => {
             @b3.formCSRF(routes.Application.handleUpdatePart(partId)) {
                 <h1 class="text-primary">@Messages("parts.add")</h1>
                 <fieldset>
-                    @b3.text( partForm("name"), '_label -> Messages("parts.table.name"), 'placeholder -> Messages("parts.name.placeholder"), 'autofocus -> true )
+                    @b3.text(partForm("name"), '_label -> Messages("parts.table.name"), 'placeholder -> Messages("parts.name.placeholder"), 'autofocus -> true)
                     @b3.text(partForm("price"), '_label -> Messages("parts.table.price"), 'placeholder -> 0.5)
-                    @b3.submit('class -> "btn btn-primary btn-block"){ @Messages("parts.save") }
+                    @b3.submit('class -> "btn btn-primary btn-block") {
+                        @Messages("parts.save")
+                    }
                     <a class="btn btn-default btn-block" href="@routes.Application.parts">@Messages("back")</a>
                 </fieldset>
             }
@@ -19,9 +21,11 @@
             @b3.formCSRF(routes.Application.handleAddPart) {
                 <h1 class="text-primary">@Messages("parts.add")</h1>
                 <fieldset>
-                    @b3.text( partForm("name"), '_label -> Messages("parts.table.name"), 'placeholder -> Messages("parts.name.placeholder"), 'autofocus -> true )
+                    @b3.text(partForm("name"), '_label -> Messages("parts.table.name"), 'placeholder -> Messages("parts.name.placeholder"), 'autofocus -> true)
                     @b3.text(partForm("price"), '_label -> Messages("parts.table.price"), 'placeholder -> 0.5)
-                    @b3.submit('class -> "btn btn-primary btn-block"){ @Messages("parts.save") }
+                    @b3.submit('class -> "btn btn-primary btn-block") {
+                        @Messages("parts.save")
+                    }
                     <a class="btn btn-default btn-block" href="@routes.Application.parts">@Messages("back")</a>
                 </fieldset>
             }

@@ -5,7 +5,7 @@ import reactivemongo.api.MongoConnection.ParsedURI
 import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.api.commands.WriteResult
 import reactivemongo.api.{ DefaultDB, MongoConnection, MongoDriver }
-import reactivemongo.bson.{ BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, derived, document }
+import reactivemongo.bson.{ BSONDocumentReader, BSONDocumentWriter, BSONObjectID, Macros, document }
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ Await, Future }
@@ -36,10 +36,6 @@ trait MongoDatabase {
   implicit def userWriter: BSONDocumentWriter[User] = Macros.writer[User]
 
   implicit def userReader: BSONDocumentReader[User] = Macros.reader[User]
-
-  //  implicit def requestStatusWriter: BSONDocumentWriter[RequestStatus] = derived.encoder[RequestStatus]
-  //
-  //  implicit def requestStatusReader: BSONDocumentReader[RequestStatus] = derived.decoder[RequestStatus]
 
   implicit def fixRequestWriter: BSONDocumentWriter[FixRequest] = Macros.writer[FixRequest]
 

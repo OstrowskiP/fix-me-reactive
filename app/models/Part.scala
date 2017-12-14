@@ -4,9 +4,9 @@ import pl.lodz.p.edu.dao.MongoDatabase
 import reactivemongo.api.commands.WriteResult
 import reactivemongo.bson.BSONObjectID
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{ Failure, Success }
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created by postrowski on 12/9/17.

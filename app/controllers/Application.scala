@@ -10,7 +10,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.format.Formats._
 import play.api.data.validation.Constraints.maxLength
-import play.api.i18n.{ Lang, Messages, MessagesApi }
+import play.api.i18n.{ Lang, MessagesApi }
 import play.api.mvc.AnyContent
 import reactivemongo.bson.BSONObjectID
 import utils.silhouette._
@@ -22,9 +22,19 @@ import scala.concurrent.Future
 @Singleton
 class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi: MessagesApi) extends AuthController {
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // UTILITIES
+
   def validateTime(time: String): Boolean = time.matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
 
   def validateDate(date: String): Boolean = date.matches("((0[1-9]|[12]\\d|3[01])-(0[1-9]|1[0-2])-[12]\\d{3})")
+
+  def validatePhoneNumber(phoneNumber: String): Boolean = phoneNumber.matches("([0-9]{3})-([0-9]{3})-([0-9]{3})")
+
+  def isAdmin(implicit request: SecuredRequest[MyEnv, AnyContent]): Boolean = request.identity.services.contains("master")
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // FORMS
 
   val makeARequestForm = Form(
     mapping(
@@ -33,7 +43,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -55,7 +65,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -77,7 +87,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -106,6 +116,9 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )(Part.apply)(Part.unapply)
   )
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // TOPBAR ACTIONS
+
   def index = UserAwareAction { implicit request =>
     Ok(views.html.index())
   }
@@ -114,22 +127,9 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     Ok(views.html.myAccount())
   }
 
-  // REQUIRED ROLES: serviceA (or master)
-  def serviceA = SecuredAction(WithService("serviceA")) { implicit request =>
-    Ok(views.html.serviceA())
-  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // PARTS MANAGEMENT
 
-  // REQUIRED ROLES: serviceA OR serviceB (or master)
-  def serviceAorServiceB = SecuredAction(WithService("serviceA", "serviceB")) { implicit request =>
-    Ok(views.html.serviceAorServiceB())
-  }
-
-  // REQUIRED ROLES: serviceA AND serviceB (or master)
-  def serviceAandServiceB = SecuredAction(WithServices("serviceA", "serviceB")) { implicit request =>
-    Ok(views.html.serviceAandServiceB())
-  }
-
-  // REQUIRED ROLES: master
   def parts = SecuredAction(WithService("master")).async { implicit request =>
     Part.parts.map { partsList =>
       Ok(views.html.parts(partsList))
@@ -177,6 +177,9 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       case None => Redirect(routes.Application.parts).flashing("error" -> "Couldn't delete part")
     }
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // FIX REQUESTS MANAGEMENT
 
   def startMakeARequest = UserAwareAction { implicit request =>
     request.identity match {
@@ -342,7 +345,5 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       Redirect(routes.Application.index).withLang(Lang(lang))
     }
   }
-
-  def isAdmin(implicit request: SecuredRequest[MyEnv, AnyContent]): Boolean = request.identity.services.contains("master")
 
 }

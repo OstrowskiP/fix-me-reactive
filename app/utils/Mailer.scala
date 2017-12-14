@@ -1,10 +1,11 @@
 package utils
 
+import javax.inject.{ Inject, Singleton }
+
 import models.User
-import play.twirl.api.Html
 import play.api.i18n.Messages
+import play.twirl.api.Html
 import views.html.mails
-import javax.inject.{ Singleton, Inject }
 
 @Singleton
 class Mailer @Inject() (ms: MailService) {

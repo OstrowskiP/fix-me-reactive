@@ -1,25 +1,26 @@
 @()(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 
-@import views.html.tags.auth._
 @import controllers.routes
 
-@servicesString(user: User) = @{ user.services match {
-	case Nil => "none"
-	case head :: Nil => head
-	case init :+ last => init.mkString(", ") + " " + Messages("and") + " " + last
-}}
+@servicesString(user: User) = @{
+    user.services match {
+        case Nil => "none"
+        case head :: Nil => head
+        case init :+ last => init.mkString(", ") + " " + Messages("and") + " " + last
+    }
+}
 
-@views.html.templates.default(title = "Home", loggedUser, tab = "index") {
-	@tags.alertFromRequest(request, "success")
-	@tags.alertFromRequest(request, "error")
-		
-		<h1 class="text-primary">@Messages("index.title")</h1>
-		
-		<p class="lead">
-			@loggedUser.map { user =>
-				@Html(Messages("index.intro.logged", user.fullName, routes.Application.myAccount, routes.Auth.signOut))
-			}.getOrElse {
-				@Html(Messages("index.intro.notlogged", routes.Auth.startSignUp))
-			}
-		</p>
-	}
+@views.html.templates.default(title = Messages("index.title"), loggedUser, tab = "index") {
+    @tags.alertFromRequest(request, "success")
+    @tags.alertFromRequest(request, "error")
+
+    <h1 class="text-primary">@Messages("index.title")</h1>
+
+    <p class="lead">
+    @loggedUser.map { user =>
+        @Html(Messages("index.intro.logged", user.fullName, routes.Application.myAccount, routes.Auth.signOut))
+    }.getOrElse {
+        @Html(Messages("index.intro.notlogged", routes.Auth.startSignUp))
+    }
+    </p>
+}

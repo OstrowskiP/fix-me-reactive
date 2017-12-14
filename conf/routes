@@ -3,61 +3,58 @@
 # ~~~~
 
 # Authentication pages
-GET		/signup									controllers.Auth.startSignUp
-POST	/signup									controllers.Auth.handleStartSignUp
-GET		/signup/:token					controllers.Auth.signUp(token: String)
-GET		/signin									controllers.Auth.signIn
-POST	/authenticate						controllers.Auth.authenticate
-GET		/signout								controllers.Auth.signOut
-GET		/reset-password					controllers.Auth.forgotPassword
-POST	/reset-password					controllers.Auth.handleForgotPassword
-GET		/reset-password/:token	controllers.Auth.resetPassword(token: String)
-POST	/reset-password/:token	controllers.Auth.handleResetPassword(token: String)
-GET		/change-password				controllers.Auth.changePassword
-POST	/change-password				controllers.Auth.handleChangePassword
-GET     /edit-account       controllers.Auth.updateAccount
-POST     /edit-account       controllers.Auth.handleUpdateAccount
+GET         /signup                          controllers.Auth.startSignUp
+POST        /signup                          controllers.Auth.handleStartSignUp
+GET         /signup/:token                   controllers.Auth.signUp(token: String)
+GET         /signin                          controllers.Auth.signIn
+POST        /authenticate                    controllers.Auth.authenticate
+GET         /signout                         controllers.Auth.signOut
+GET         /reset-password                  controllers.Auth.forgotPassword
+POST        /reset-password                  controllers.Auth.handleForgotPassword
+GET         /reset-password/:token           controllers.Auth.resetPassword(token: String)
+POST        /reset-password/:token           controllers.Auth.handleResetPassword(token: String)
+GET         /change-password                 controllers.Auth.changePassword
+POST        /change-password                 controllers.Auth.handleChangePassword
+GET         /edit-account                    controllers.Auth.updateAccount
+POST        /edit-account                    controllers.Auth.handleUpdateAccount
 
 
 # Home page
-GET		/												controllers.Application.index
-GET		/serviceA								controllers.Application.serviceA
-GET		/serviceA_or_ServiceB		controllers.Application.serviceAorServiceB
-GET		/serviceA_and_ServiceB	controllers.Application.serviceAandServiceB
-GET		/parts								controllers.Application.parts
-GET		/myaccount							controllers.Application.myAccount
-GET     /users      controllers.Auth.users
-GET     /updateUser/:email      controllers.Auth.updateUser(email: String)
-POST     /updateUser/:email      controllers.Auth.handleUpdateUser(email: String)
-GET     /deleteUser/:email      controllers.Auth.deleteUser(email: String)
+GET         /                                controllers.Application.index
+GET         /parts                           controllers.Application.parts
+GET         /myaccount                       controllers.Application.myAccount
+GET         /users                           controllers.Auth.users
+GET         /updateUser/:email               controllers.Auth.updateUser(email: String)
+POST        /updateUser/:email               controllers.Auth.handleUpdateUser(email: String)
+GET         /deleteUser/:email               controllers.Auth.deleteUser(email: String)
 
 # Fix requests
-GET     /makeARequest   controllers.Application.startMakeARequest
-POST    /makeARequest   controllers.Application.handleMakeARequest
-GET     /trackRequest   controllers.Application.startTrackRequest
-POST     /trackRequest   controllers.Application.handleTrackRequest
-GET     /trackRequest/:requestId    controllers.Application.trackRequest(requestId:String)
-GET     /myRequests     controllers.Application.myRequests
-GET     /cancelRequest/:requestId  controllers.Application.cancelRequest(requestId: String)
-GET     /updateRequest/:requestId   controllers.Application.updateRequest(requestId: String)
-POST     /updateRequest/:requestId   controllers.Application.handleUpdateRequest(requestId: String)
+GET         /makeARequest                    controllers.Application.startMakeARequest
+POST        /makeARequest                    controllers.Application.handleMakeARequest
+GET         /trackRequest                    controllers.Application.startTrackRequest
+POST        /trackRequest                    controllers.Application.handleTrackRequest
+GET         /trackRequest/:requestId         controllers.Application.trackRequest(requestId:String)
+GET         /myRequests                      controllers.Application.myRequests
+GET         /cancelRequest/:requestId        controllers.Application.cancelRequest(requestId: String)
+GET         /updateRequest/:requestId        controllers.Application.updateRequest(requestId: String)
+POST        /updateRequest/:requestId        controllers.Application.handleUpdateRequest(requestId: String)
 
 # Parts
-GET     /addPart        controllers.Application.addPart
-POST    /addPart        controllers.Application.handleAddPart
-GET    /updatePart/:partId     controllers.Application.updatePart(partId: String)
-POST    /updatePart/:partId        controllers.Application.handleUpdatePart(partId: String)
-GET     /deletePart/:partId     controllers.Application.deletePart(partId: String)
+GET         /addPart                         controllers.Application.addPart
+POST        /addPart                         controllers.Application.handleAddPart
+GET         /updatePart/:partId              controllers.Application.updatePart(partId: String)
+POST        /updatePart/:partId              controllers.Application.handleUpdatePart(partId: String)
+GET         /deletePart/:partId              controllers.Application.deletePart(partId: String)
 
-GET		/lang/$lang<(en|pl)>		controllers.Application.selectLang(lang: String)
+GET         /lang/$lang<(en|pl)>             controllers.Application.selectLang(lang: String)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET		/public/*file						controllers.MyAssets.public(path="/public", file: Asset)
-GET		/lib/*file							controllers.MyAssets.lib(path="/public/lib", file: Asset)
-GET		/css/*file							controllers.MyAssets.css(path="/public/stylesheets", file: Asset)
-GET		/js/*file								controllers.MyAssets.js(path="/public/javascripts", file: Asset)
-GET		/img/*file							controllers.MyAssets.img(path="/public/images", file: Asset)
-GET		/common/css/*file				controllers.MyAssets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
-GET		/common/js/*file				controllers.MyAssets.commonJs(path="/public/lib/common/javascripts", file: Asset)
-GET		/common/img/*file				controllers.MyAssets.commonImg(path="/public/lib/common/images", file: Asset)
+GET         /public/*file                    controllers.MyAssets.public(path="/public", file: Asset)
+GET         /lib/*file                       controllers.MyAssets.lib(path="/public/lib", file: Asset)
+GET         /css/*file                       controllers.MyAssets.css(path="/public/stylesheets", file: Asset)
+GET         /js/*file                        controllers.MyAssets.js(path="/public/javascripts", file: Asset)
+GET         /img/*file                       controllers.MyAssets.img(path="/public/images", file: Asset)
+GET         /common/css/*file                controllers.MyAssets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
+GET         /common/js/*file                 controllers.MyAssets.commonJs(path="/public/lib/common/javascripts", file: Asset)
+GET         /common/img/*file                controllers.MyAssets.commonImg(path="/public/lib/common/images", file: Asset)

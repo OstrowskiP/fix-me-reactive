@@ -1,19 +1,19 @@
 @(partForm: Form[User])(implicit request: RequestHeader, user: User, messages: Messages)
-@import b3.vertical.fieldConstructor
-@import controllers.routes
-@views.html.templates.logged(Messages("edit.account.title")) {
-    @b3.formCSRF(routes.Auth.handleUpdateAccount) {
-        <h1 class="text-primary">@Messages("edit.account.title")</h1>
-        <fieldset>
-            @b3.text(partForm("firstName"), '_label -> Messages("field.firstname"), 'autofocus -> true)
-            @b3.text(partForm("lastName"), '_label -> Messages("field.lastname"))
-            @b3.text(partForm("nick"), '_label -> Messages("field.nick"))
-            @b3.text(partForm("address"), '_label -> Messages("field.address"))
-            @b3.text(partForm("phoneNr"), '_label -> Messages("field.phone"))
-            @b3.submit('class -> "btn btn-primary btn-block") {
-                @Messages("edit.account.save")
-            }
-            <a class="btn btn-default btn-block" href="@routes.Application.myAccount">@Messages("back")</a>
-        </fieldset>
+    @import b3.vertical.fieldConstructor
+    @import controllers.routes
+    @views.html.templates.logged(Messages("edit.account.title")) {
+        @b3.formCSRF(routes.Auth.handleUpdateAccount) {
+            <h1 class="text-primary">@Messages("edit.account.title")</h1>
+            <fieldset>
+                @b3.text(partForm("firstName"), '_label -> Messages("field.firstname"), 'autofocus -> true)
+                @b3.text(partForm("lastName"), '_label -> Messages("field.lastname"))
+                @b3.text(partForm("nick"), '_label -> Messages("field.nick"))
+                @b3.text(partForm("address"), '_label -> Messages("field.address"))
+                @b3.text(partForm("phoneNr"), '_label -> Messages("field.phone"))
+                @b3.submit('class -> "btn btn-primary btn-block") {
+                    @Messages("edit.account.save")
+                }
+                <a class="btn btn-default btn-block" href="@routes.Application.myAccount">@Messages("back")</a>
+            </fieldset>
+        }
     }
-}

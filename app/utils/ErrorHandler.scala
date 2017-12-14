@@ -1,15 +1,17 @@
 package utils
 
-import play.api.http.DefaultHttpErrorHandler
+import javax.inject.{ Inject, Provider, Singleton }
+
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
-import play.api.i18n.{ I18nSupport, MessagesApi, Messages }
-import play.api._
-import play.api.mvc._
-import play.api.mvc.Results._
-import play.api.routing.Router
-import scala.concurrent.Future
-import javax.inject.{ Singleton, Inject, Provider }
 import controllers.routes
+import play.api._
+import play.api.http.DefaultHttpErrorHandler
+import play.api.i18n.{ I18nSupport, MessagesApi }
+import play.api.mvc.Results._
+import play.api.mvc._
+import play.api.routing.Router
+
+import scala.concurrent.Future
 
 @Singleton
 class ErrorHandler @Inject() (

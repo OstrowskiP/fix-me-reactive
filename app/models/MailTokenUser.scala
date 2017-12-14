@@ -1,8 +1,10 @@
 package models
 
-import utils.silhouette.MailToken
-import org.joda.time.DateTime
 import java.util.UUID
+
+import org.joda.time.DateTime
+import utils.silhouette.MailToken
+
 import scala.concurrent.Future
 
 case class MailTokenUser(id: String, email: String, expirationTime: DateTime, isSignUp: Boolean) extends MailToken

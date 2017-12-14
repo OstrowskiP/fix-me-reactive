@@ -1,7 +1,5 @@
-
 ################################################################################################
 # COMMON
-
 field.firstname=First name
 field.lastname=Last name
 field.nick=Nick
@@ -13,52 +11,32 @@ field.password.repeat=Repeat password
 field.services=Access level
 field.parts=Parts used
 field.status=Request status
-
 submit=Submit
 reset=Reset
 back=Back
 go.index=Go to index
-
 ################################################################################################
 # TOPBAR
-
-topbar.index=Index
 topbar.myaccount=My account
 topbar.hello=Hello {0}!<br>Access level: {1}
 topbar.fixrequest=Fix request
 topbar.trackrequest=Track request
 topbar.myrequests=My requests
-
 ################################################################################################
 # INDEX
-
 index.title=Welcome to FixME webpage!
 index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
 <a href="{1}">My account</a> section to see and edit your contact info.
-index.intro.notlogged=Now, you aren''t logged, so you can try to <a href="{0}">sign in</a> or <a href="{1}">sign up</a> and create your own account.<br>\
-If you don''t remember your password, you also can <a href="{2}">reset your password</a> with the traditional email mechanism.
-index.explanation=Each user has one or more services that indicate a specific area or hierarchical level.<br>\
-You can restrict sections to those users who match with a set of services (using logic OR or AND, you can choose).<br>\
-The <span class="text-warning">master</span> role has always full access to everywhere.
-index.example=For example:
-index.example.serviceA=the user has access to the ''service A'' area.
-index.example.serviceA_serviceB=the user has access to ''service A'' and ''service B'' areas.
-index.example.master=full access to every point of the webpage.
-index.auth.status=In this case, you are logged as {0} and your services are: {1}
-index.table.section=Section
-index.table.authobject=Authorization object
-index.table.services=Services needed
-index.table.allowed=Are you allowed?
-index.table.go=Go there and check yourself
-
+index.intro.notlogged=Our website is providing you with electronic device service without necessity to step out of your home! \
+  What differs us from our competition is possibility to request service at your place \
+  and if the repair cannot be completed without specialist equipement, our employee will pick up the device from you and bring it to our laboratory. \
+  You only need to fill out request form, pick date and time that suits you best and our employees will do the rest. \
+  We strongly encourage You to <a href="{0}">create your own account</a>, it''ll enable you to track all of your requests, both present and past.
 ################################################################################################
 # MY ACCOUNT
-
 myaccount.title=My account
-
 ################################################################################################
 # AUTH
-
 signup=Sign up
 signup.title=Sign up for a new account
 signup.signin.question=Already a member?
@@ -66,72 +44,54 @@ signup.signin=Sign in now
 signup.thanks=Thank you {0} for sign up!
 signup.sent=We''ve just send you an email to {0}. Please follow its instructions to complete your new account.
 signup.ready=You have now your account available
-
 signin=Sign in
 signin.title=Sign in with your credentials
 signin.rememberme=Remember me
-signin.signup.question=Don''t you have an account?
-signin.signup=Sign up now
 signin.forgot.question=Have you forgot your password?
 signin.forgot=Reset it now
 signin.email.placeholder=your@email.com
 signin.address.placeholder=Stefana Żeromskiego 116, 90-924 Łódź
-signin.phone.placeholder=000000000
-
+signin.phone.placeholder=000-000-000
 signout=Sign out
-
 forgot.title=Have you forgot your password?
 forgot.sent=We''ve just sent an email to {0} with the instructions to reset your password
 forgot.reset.title=Reset your password
 forgot.reseted=Your password has been reseted
-
 edit.account.title=Edit account
 edit.account.save=Save changes
 edit.account.changed=Account details changed
-
 changepass=Change password
 changepass.title=Change your password
 changepass.field.current=Current password
 changepass.field.new=New password
 changepass.field.repeat=Repeat password
-
 auth.user.notexists=There is no user with this email
 auth.user.notunique=There is another user with this email
 auth.credentials.incorrect=Incorrect email or password
 auth.passwords.notequal=The passwords must be equal
 auth.password.changed=The password has been successfully changed
 auth.currentpwd.incorrect=The current password is incorrect
-
 denied.title=Access denied!
 denied.text=You have no privileges to be here.
-
 ################################################################################################
 # ERRORS
-
 error.unknown.title=Oops, an error occurred
 error.unknown.text=This exception has been logged with id <strong>{0}</strong>.
 error.notfound.title=Handler Not Found
 error.notfound.text=For request ''{0}''
-
 ################################################################################################
 # MAILS
-
-mail.welcome.subject=Welcome to MyWeb! Please confirm your account
+mail.welcome.subject=Welcome to FixMe! Please confirm your account
 mail.welcome.hello=Welcome {0}!
-mail.welcome.prelink=Thanks for signing up for this great webpage! Please verify your email address by clicking the link below.
+mail.welcome.prelink=Thanks for signing up on FixMe! Please verify your email address by clicking the link below.
 mail.welcome.postlink=Note that this link will expire in 24 hours if it''s not activated.
-
-mail.forgotpwd.subject=Reset your MyWeb password
-mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset for your MyWeb account. Follow the link below to set a new password:
+mail.forgotpwd.subject=Reset your FixMe password
+mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset for your FixMe account. Follow the link below to set a new password:
 mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don''t wish to reset your password, disregard this email and no action will be taken.
-
-mail.sign=Team MyWeb
-
+mail.sign=Team FixMe
 language.change=Change language
-
 ################################################################################################
 # FIX REQUEST
-
 makearequest.title=Make a fix request
 makearequest.send=Send request
 makearequest.customer.name=Name
@@ -172,10 +132,8 @@ makearequest.track.id=Request ID
 makearequest.track.button=Track your request
 makearequest.track.title=Request details
 editrequest.title=Edit request details
-
 ################################################################################################
 # MY REQUESTS
-
 myrequests.title=My requests
 myrequests.table.id=ID
 myrequests.table.type=Type
@@ -183,20 +141,16 @@ myrequests.table.manufacturer=Manufacturer
 myrequests.table.model=Model
 myrequests.table.date=Date
 myrequests.table.status=Status
-
 ################################################################################################
 # PARTS
-
 parts.title=Parts
 parts.table.name=Name
 parts.table.price=Price (PLN)
 parts.name.placeholder=Capacitor 220uF
 parts.save=Save part
 parts.add=Add part
-
 ################################################################################################
 # Request status
-
 requeststatus.awaitingconfirmation=Awaiting confirmation
 requeststatus.confirmed=Confirmed
 requeststatus.inprogress=In progress
@@ -204,10 +158,8 @@ requeststatus.fixed=Fixed
 requeststatus.shipped=Shipped
 requeststatus.canceled=Canceled
 requeststatus.completed=Completed
-
 ################################################################################################
 # Users management
-
 users.title=Users
 users.email=Email
 users.nick=Nick

@@ -1,7 +1,5 @@
-
 ################################################################################################
 # COMMON
-
 field.firstname=Imię
 field.lastname=Nazwisko
 field.nick=Nick
@@ -13,25 +11,19 @@ field.password.repeat=Powtórz hasło
 field.services=Poziom uprawnień
 field.parts=Użyte części
 field.status=Status zgłoszenia
-
 submit=OK
 reset=Zresetuj
 back=Wróć
 go.index=Strona główna
-
 ################################################################################################
 # TOPBAR
-
-topbar.index=Indeks
 topbar.myaccount=Moje konto
 topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 topbar.fixrequest=Zgłoś żądanie naprawy
 topbar.trackrequest=Śledź zgłoszenie
 topbar.myrequests=Moje zgłoszenia
-
 ################################################################################################
 # INDEX
-
 index.title=Witaj na stronie serwisu FixME!
 index.intro.logged=Jesteś zalogowany jako <span class="text-success">{0}</span>, możesz przejść do zakładki \
 <a href="{1}">Moje konto</a> żeby zobaczyć i edytować swoje dane osobowe.
@@ -40,22 +32,11 @@ To co wyróżnia nas od konkurencji to możliwość zamówienia serwisu z napraw
 lub z odbiorem sprzętu przez naszego pracownika (jeśli naprawa wymaga specjalistycznego sprzętu i naszego laboratorium). \
 Wystarczy, że wypełnisz zgłoszenie serwisowe, nasz praacownik odezwie się do Ciebie i umówi w dogodnej dla Ciebie dacie. \
 Zachęcamy do <a href="{0}">założenia swojego konta</a>, umożliwi Ci to śledzenie statusu swoich zgłoszeń oraz przeglądanie ich historii.
-
-index.auth.status=In this case, you are logged as {0} and your services are: {1}
-index.table.section=Section
-index.table.authobject=Authorization object
-index.table.services=Services needed
-index.table.allowed=Are you allowed?
-index.table.go=Go there and check yourself
-
 ################################################################################################
 # MY ACCOUNT
-
 myaccount.title=Moje konto
-
 ################################################################################################
 # AUTH
-
 signup=Załóż konto
 signup.title=Zarejestruj się
 signup.signin.question=Posiadasz już swoje konto?
@@ -63,72 +44,54 @@ signup.signin=Zaloguj się
 signup.thanks=Dzięki {0} za rejestrację na naszej stronie!
 signup.sent=Wysłaliśmy Ci wiadomość email na: {0}. Postępuj zgodnie ze wskazówkami w nim zawartymi aby ukończyć aktywację konta.
 signup.ready=Twoje konto jest już aktywne
-
 signin=Zaloguj się
 signin.title=Zaloguj się na istniejące konto
 signin.rememberme=Pamiętaj mnie
-signin.signup.question=Nie masz jeszcze konta?
-signin.signup=Zarejestruj się
 signin.forgot.question=Zapomniałeś hasła?
 signin.forgot=Zresetuj hasło
 signin.email.placeholder=adres@email.pl
 signin.address.placeholder=Stefana Żeromskiego 116, 90-924 Łódź
-signin.phone.placeholder=000000000
-
+signin.phone.placeholder=000-000-000
 signout=Wyloguj się
-
 forgot.title=Zapomniałeś hasła?
 forgot.sent=Wysłaliśmy Ci wiadomość email na: {0}. Postępuj zgodnie ze wskazówkami w nim zawartymi aby ukończyć zmianę hasła.
 forgot.reset.title=Zresetuj hasło
 forgot.reseted=Twoje hasło zostało zmienione
-
 edit.account.title=Edytuj konto
 edit.account.save=Zapisz zmiany
 edit.account.changed=Konto zostało zaktualizowane
-
 changepass=Zmień hasło
 changepass.title=Zmień swoje hasło
 changepass.field.current=Stare hasło
 changepass.field.new=Nowe hasło
 changepass.field.repeat=Powtórz nowe hasło
-
-auth.user.notexists=There is no user with this email
-auth.user.notunique=There is another user with this email
-auth.credentials.incorrect=Incorrect email or password
-auth.passwords.notequal=The passwords must be equal
-auth.password.changed=The password has been successfully changed
-auth.currentpwd.incorrect=The current password is incorrect
-
+auth.user.notexists=Użytkownik z podanym adresem email nie istnieje
+auth.user.notunique=Konto z podanym adresem email już istnieje
+auth.credentials.incorrect=Niepoprawny adres email lub hasło
+auth.passwords.notequal=Hasła muszą się zgadzać
+auth.password.changed=Hasło zostało pomyślnie zmienione
+auth.currentpwd.incorrect=Stare hasło jest niepoprawne
 denied.title=Odmowa dostępu!
 denied.text=Nie posiadasz wystarczających uprawnień do wyświetlenia tej strony.
-
 ################################################################################################
 # ERRORS
-
-error.unknown.title=Oops, an error occurred
-error.unknown.text=This exception has been logged with id <strong>{0}</strong>.
-error.notfound.title=Handler Not Found
-error.notfound.text=For request ''{0}''
-
+error.unknown.title=Oops, wystąpił błąd
+error.unknown.text=Wyjątek został zalogowany z ID <strong>{0}</strong>.
+error.notfound.title=Nie znaleziono uchwytu
+error.notfound.text=Zgłoszenie ''{0}''
 ################################################################################################
 # MAILS
-
-mail.welcome.subject=Welcome to MyWeb! Please confirm your account
-mail.welcome.hello=Welcome {0}!
-mail.welcome.prelink=Thanks for signing up for this great webpage! Please verify your email address by clicking the link below.
-mail.welcome.postlink=Note that this link will expire in 24 hours if it''s not activated.
-
-mail.forgotpwd.subject=Reset your MyWeb password
-mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset for your MyWeb account. Follow the link below to set a new password:
-mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don''t wish to reset your password, disregard this email and no action will be taken.
-
-mail.sign=Team MyWeb
-
+mail.welcome.subject=Witaj w serwisie FixMe! Potwierdź aktywację swojego konta
+mail.welcome.hello=Witaj {0}!
+mail.welcome.prelink=Dziękujemy za założenie konta w naszym serwisie! Zweryfikuj swój adres email klikając na poniższy link.
+mail.welcome.postlink=Link wygaśnie za 24 godziny, jeśli nie zostanie wykorzystany.
+mail.forgotpwd.subject=Zresetuj swoje hasło do serwisu FixMe
+mail.forgotpwd.prelink=Ktoś poprosił o zresetowanie hasła dla Twojego konta w serwisie FixMe. Kliknij w poniższy link aby ustanowić nowe hasło:
+mail.forgotpwd.postlink=Link wygaśnie za 24 godziny, jeśli nie zostanie wykorzystany. Jeśli nie chcesz zmieniać swojego hasła, zignoruj tę wiadomość.
+mail.sign=Zespół FixMe
 language.change=Zmień język
-
 ################################################################################################
 # FIX REQUEST
-
 makearequest.title=Dodaj zgłoszenie naprawy
 makearequest.send=Wyślij zgłoszenie
 makearequest.customer.name=Imię
@@ -169,10 +132,8 @@ makearequest.track.id=ID zgłoszenia
 makearequest.track.button=Śledź zgłoszenie
 makearequest.track.title=Szczegóły zgłoszenia
 editrequest.title=Edytuj szczegóły zgłoszenia
-
 ################################################################################################
 # MY REQUESTS
-
 myrequests.title=Moje zgłoszenia
 myrequests.table.id=ID
 myrequests.table.type=Typ
@@ -180,20 +141,16 @@ myrequests.table.manufacturer=Producent
 myrequests.table.model=Model
 myrequests.table.date=Data
 myrequests.table.status=Status
-
 ################################################################################################
 # PARTS
-
 parts.title=Części
 parts.table.name=Nazwa
 parts.table.price=Cena (ZŁ)
 parts.name.placeholder=Kondensator 220uF
 parts.save=Zapisz część
 parts.add=Dodaj część
-
 ################################################################################################
 # Request status
-
 requeststatus.awaitingconfirmation=Oczekuje na potwierdzenie
 requeststatus.confirmed=Potwierdzone
 requeststatus.inprogress=W trakcie
@@ -201,10 +158,8 @@ requeststatus.fixed=Naprawione
 requeststatus.shipped=Dostarczone
 requeststatus.canceled=Anulowane
 requeststatus.completed=Zamknięte
-
 ################################################################################################
 # Users management
-
 users.title=Użytkownicy
 users.email=Email
 users.nick=Nick

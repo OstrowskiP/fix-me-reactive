@@ -1,84 +1,84 @@
 @(title: String, loggedUser: Option[User], withMainTabs: Boolean = true, tab: String = "", styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit messages: Messages)
 
-@import views.html.tags.auth._
-@import controllers.routes
+    @import views.html.tags.auth._
+    @import controllers.routes
 
-@displayToggleLang = {
-@if(messages.lang.code == "en") {
-    <li><a class="navbar-icon" href="@routes.Application.selectLang("pl")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/polish_lang.png"></a></li>
-} else {
-    <li><a class="navbar-icon" href="@routes.Application.selectLang("en")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/english_lang.png"></a></li>
-}
-}
-
-@navbarContent = {
-@if(withMainTabs) {
-    <ul class="nav navbar-nav">
-    @loggedUser.map { implicit user =>
-        @withService("serviceA") {
-            <li class="@("active".when(tab == "myrequests"))">
-                <a class="navbar-icon" href="@routes.Application.myRequests" data-tooltip="@Messages("topbar.myrequests")">
-                    <img height="26" src="../../../public/images/menu_items/my_requests.png">
-                </a></li>
+    @displayToggleLang = {
+        @if(messages.lang.code == "en") {
+            <li><a class="navbar-icon" href="@routes.Application.selectLang("pl")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/polish_lang.png"></a></li>
+        } else {
+            <li><a class="navbar-icon" href="@routes.Application.selectLang("en")" data-tooltip="@Messages("language.change")"><img height="26" src="../../../public/images/menu_items/english_lang.png"></a></li>
         }
-        @withService("serviceA") {
-            <li class="@("active".when(tab == "makearequest"))">
-                <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
-                    <img height="26" src="../../../public/images/menu_items/make_request.png">
-                </a>
-            </li>
-        }
-        @withService("master") {
-            <li class="@("active".when(tab == "users"))">
-                <a class="navbar-icon" href="@routes.Auth.users">
-                    <img height="26" src="../../../public/images/menu_items/users.png">
-                </a>
-            </li>
-        }
-        @withService("master") {
-            <li class="@("active".when(tab == "parts"))">
-                <a class="navbar-icon" href="@routes.Application.parts" data-tooltip="@Messages("parts.title")">
-                    <img height="26" src="../../../public/images/menu_items/parts.png">
-                </a>
-            </li>
-        }
-    <li class="@("active".when(tab == "myaccount"))">
-        <a class="navbar-icon" href="@routes.Application.myAccount" data-tooltip="@Messages("topbar.myaccount")">
-        <img height="26" src="../../../public/images/menu_items/my_account.png">
-    </a>
-    </li>
     }
-    </ul>
-}
 
-@loggedUser.map(user => ()).getOrElse {
-    <ul class="nav navbar-nav">
-        <li class="@("active".when(tab == "makearequest"))">
-            <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
-                <img height="26" src="../../../public/images/menu_items/make_request.png">
+    @navbarContent = {
+        @if(withMainTabs) {
+            <ul class="nav navbar-nav">
+            @loggedUser.map { implicit user =>
+                @withService("serviceA") {
+                    <li class="@("active".when(tab == "myrequests"))">
+                        <a class="navbar-icon" href="@routes.Application.myRequests" data-tooltip="@Messages("topbar.myrequests")">
+                            <img height="26" src="../../../public/images/menu_items/my_requests.png">
+                        </a></li>
+                }
+                @withService("serviceA") {
+                    <li class="@("active".when(tab == "makearequest"))">
+                        <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
+                            <img height="26" src="../../../public/images/menu_items/make_request.png">
+                        </a>
+                    </li>
+                }
+                @withService("master") {
+                    <li class="@("active".when(tab == "users"))">
+                        <a class="navbar-icon" href="@routes.Auth.users">
+                            <img height="26" src="../../../public/images/menu_items/users.png">
+                        </a>
+                    </li>
+                }
+                @withService("master") {
+                    <li class="@("active".when(tab == "parts"))">
+                        <a class="navbar-icon" href="@routes.Application.parts" data-tooltip="@Messages("parts.title")">
+                            <img height="26" src="../../../public/images/menu_items/parts.png">
+                        </a>
+                    </li>
+                }
+            <li class="@("active".when(tab == "myaccount"))">
+                <a class="navbar-icon" href="@routes.Application.myAccount" data-tooltip="@Messages("topbar.myaccount")">
+                <img height="26" src="../../../public/images/menu_items/my_account.png">
             </a>
-        </li>
-        <li class="@("active".when(tab == "trackrequest"))">
-            <a class="navbar-icon" href="@routes.Application.startTrackRequest" data-tooltip="@Messages("topbar.trackrequest")">
-                <img height="26" src="../../../public/images/menu_items/track_request.png">
-            </a>
-        </li>
-    </ul>
-}
+            </li>
+            }
+            </ul>
+        }
 
-    <ul class="nav navbar-nav navbar-right">
-    @loggedUser.map { user =>
-    <li class="navbar-text text-right" style="margin: 5px 15px">
-        @Html(Messages("topbar.hello", s"""<span><b>${user.nick}</b></span>""", s"""<span><b>${user.services.mkString(", ")}</b></span>"""))
-    </li>
-    @displayToggleLang
-    <li><a class="navbar-icon" href="@routes.Auth.signOut" data-tooltip="@Messages("signout")"><img height="26" src="../../../public/images/menu_items/logout.png"></a></li>
-    }.getOrElse {
+        @loggedUser.map(user => ()).getOrElse {
+            <ul class="nav navbar-nav">
+                <li class="@("active".when(tab == "makearequest"))">
+                    <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
+                        <img height="26" src="../../../public/images/menu_items/make_request.png">
+                    </a>
+                </li>
+                <li class="@("active".when(tab == "trackrequest"))">
+                    <a class="navbar-icon" href="@routes.Application.startTrackRequest" data-tooltip="@Messages("topbar.trackrequest")">
+                        <img height="26" src="../../../public/images/menu_items/track_request.png">
+                    </a>
+                </li>
+            </ul>
+        }
+
+        <ul class="nav navbar-nav navbar-right">
+        @loggedUser.map { user =>
+        <li class="navbar-text text-right" style="margin: 5px 15px">
+            @Html(Messages("topbar.hello", s"""<span><b>${user.nick}</b></span>""", s"""<span><b>${user.services.mkString(", ")}</b></span>"""))
+        </li>
         @displayToggleLang
-        <li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">@Messages("signin")</a></li>
-        <li class="@("active".when(tab == "signup"))"><a href="@routes.Auth.startSignUp">@Messages("signup")</a></li>
+        <li><a class="navbar-icon" href="@routes.Auth.signOut" data-tooltip="@Messages("signout")"><img height="26" src="../../../public/images/menu_items/logout.png"></a></li>
+        }.getOrElse {
+            @displayToggleLang
+            <li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">@Messages("signin")</a></li>
+            <li class="@("active".when(tab == "signup"))"><a href="@routes.Auth.startSignUp">@Messages("signup")</a></li>
+        }
+        </ul>
     }
-    </ul>
-}
 
-@main(title, navbarContent, styles, scripts, modals)(content)
+    @main(title, navbarContent, styles, scripts, modals)(content)

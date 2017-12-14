@@ -1,7 +1,7 @@
 @(makeARequestForm: Form[FixRequest])(implicit request: RequestHeader, loggedUser: Option[User], messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.routes
-@views.html.templates.default(title = "Make a request", loggedUser, tab = "makearequest") {
+@views.html.templates.default(title = Messages("makearequest.title"), loggedUser, tab = "makearequest") {
     @tags.alertFromRequest(request, "error")
     @b3.formCSRF(routes.Application.handleMakeARequest) {
         <fieldset>
@@ -12,14 +12,14 @@
                     @b3.text(makeARequestForm("customerLastname"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
                     @b3.text(makeARequestForm("customerAddress"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
                     @b3.text(makeARequestForm("userEmail"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.email"), 'placeholder -> "a@a.com")
-                    @b3.text(makeARequestForm("customerPhone"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000000000")
+                    @b3.text(makeARequestForm("customerPhone"), 'class -> "noselect disabled", 'readonly -> "readonly", '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000-000-000")
                 }
                 case None => {
                     @b3.text(makeARequestForm("customerName"), '_label -> Messages("makearequest.customer.name"), 'placeholder -> "John")
                     @b3.text(makeARequestForm("customerLastname"), '_label -> Messages("makearequest.customer.lastname"), 'placeholder -> "Doe")
                     @b3.text(makeARequestForm("customerAddress"), '_label -> Messages("makearequest.customer.address"), 'placeholder -> "Stefana Żeromskiego 116, 90-924 Łódź")
                     @b3.text(makeARequestForm("userEmail"), '_label -> Messages("makearequest.customer.email"), 'placeholder -> "a@a.com")
-                    @b3.text(makeARequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000000000")
+                    @b3.text(makeARequestForm("customerPhone"), '_label -> Messages("makearequest.customer.phone"), 'placeholder -> "000-000-000")
                 }
             }
             @b3.text(makeARequestForm("deviceType"), '_label -> Messages("makearequest.device.type"), 'placeholder -> "TV")

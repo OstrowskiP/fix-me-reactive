@@ -1,35 +1,31 @@
 package controllers
 
-import models._
-import utils.silhouette._
-import utils.silhouette.Implicits._
-import com.mohiva.play.silhouette.api.{ LoginEvent, LoginInfo, LogoutEvent, SignUpEvent, Silhouette }
+import javax.inject.{ Inject, Singleton }
+
+import com.mohiva.play.silhouette.api.Authenticator.Implicits._
+import com.mohiva.play.silhouette.api._
+import com.mohiva.play.silhouette.api.exceptions.ProviderException
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import com.mohiva.play.silhouette.api.util.{ Clock, Credentials, PasswordHasherRegistry }
-import com.mohiva.play.silhouette.api.exceptions.ProviderException
-import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import com.mohiva.play.silhouette.impl.exceptions.{ IdentityNotFoundException, InvalidPasswordException }
-import com.mohiva.play.silhouette.api.Authenticator.Implicits._
+import com.mohiva.play.silhouette.impl.exceptions.IdentityNotFoundException
+import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
+import models._
+import net.ceedubs.ficus.Ficus._
 import play.api._
-import play.api.mvc._
-import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
 import play.api.i18n.{ Messages, MessagesApi }
+import play.api.mvc._
 import utils.Mailer
-
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
-import net.ceedubs.ficus.Ficus._
-import javax.inject.{ Inject, Singleton }
-
-import reactivemongo.bson.BSONObjectID
+import utils.silhouette.Implicits._
+import utils.silhouette._
 import views.html.{ auth => viewsAuth }
 
-import scala.util.matching.Regex
+import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.Future
+import scala.concurrent.duration._
 
 @Singleton
 class Auth @Inject() (
@@ -49,6 +45,8 @@ class Auth @Inject() (
 
   val passwordValidation = nonEmptyText(minLength = 6)
 
+  def validatePhoneNumber(phoneNumber: String): Boolean = phoneNumber.matches("([0-9]{3})-([0-9]{3})-([0-9]{3})")
+
   def notFoundDefault(implicit request: RequestHeader) = Future.successful(NotFound(views.html.errors.notFound(request)))
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -60,7 +58,7 @@ class Auth @Inject() (
       "email" -> email.verifying(maxLength(250)),
       "emailConfirmed" -> ignored(false),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "password" -> nonEmptyText.verifying(minLength(6)),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
@@ -75,7 +73,7 @@ class Auth @Inject() (
       "email" -> ignored("": String),
       "emailConfirmed" -> ignored(false: Boolean),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "password" -> ignored("": String),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
@@ -89,7 +87,7 @@ class Auth @Inject() (
       "email" -> ignored("": String),
       "emailConfirmed" -> ignored(false: Boolean),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", number => number.matches("[0-9]{9}")),
+      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
       "password" -> ignored("": String),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
@@ -299,7 +297,7 @@ class Auth @Inject() (
       case Some(token) if (!token.isSignUp && !token.isExpired) => {
         Future.successful(Ok(viewsAuth.resetPassword(tokenId, resetPasswordForm)))
       }
-      case Some(token) => {
+      case Some(_) => {
         tokenService.consume(tokenId)
         notFoundDefault
       }
@@ -332,7 +330,7 @@ class Auth @Inject() (
               case None => Future.failed(new IdentityNotFoundException("Couldn't find user"))
             }
           }
-          case Some(token) => {
+          case Some(_) => {
             tokenService.consume(tokenId)
             notFoundDefault
           }

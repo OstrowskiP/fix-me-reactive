@@ -1,12 +1,13 @@
 package utils.silhouette
 
-import models.User
+import com.mohiva.play.silhouette.api.LoginInfo
 import com.mohiva.play.silhouette.api.util.PasswordInfo
 import com.mohiva.play.silhouette.persistence.daos.DelegableAuthInfoDAO
-import com.mohiva.play.silhouette.api.LoginInfo
-import scala.concurrent.Future
+import models.User
+import utils.silhouette.Implicits._
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import Implicits._
+import scala.concurrent.Future
 
 class PasswordInfoDAO extends DelegableAuthInfoDAO[PasswordInfo] {
 

@@ -53,14 +53,14 @@
                 <tr>
                     <td>@Messages("makearequest.track.status")</td>
                     <td>
-                        @Messages(fixRequest.requestStatus)
+                    @Messages(fixRequest.requestStatus)
                     </td>
                 </tr>
                 <tr>
                     <td>@Messages("makearequest.track.partsused")</td>
                     <td>
                         <table>
-                        @fixRequest.partsUsed.map {part =>
+                        @fixRequest.partsUsed.map { part =>
                             <tr><td>@part</td></tr>
                         }
                         </table>
