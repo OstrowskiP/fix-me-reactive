@@ -1,12 +1,12 @@
 @(partForm: Form[Part], oldPartId: Option[String] = None)(implicit request: RequestHeader, user: User, messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.routes
-@views.html.templates.logged(Messages("parts.add")) {
+@views.html.templates.logged(Messages("parts.details")) {
     @tags.alertFromRequest(request, "error")
     @oldPartId match {
         case Some(partId) => {
             @b3.formCSRF(routes.Application.handleUpdatePart(partId)) {
-                <h1 class="text-primary">@Messages("parts.add")</h1>
+                <h1 class="text-primary">@Messages("parts.details")</h1>
                 <fieldset>
                     @b3.text(partForm("name"), '_label -> Messages("parts.table.name"), 'placeholder -> Messages("parts.name.placeholder"), 'autofocus -> true)
                     @b3.text(partForm("price"), '_label -> Messages("parts.table.price"), 'placeholder -> 0.5)

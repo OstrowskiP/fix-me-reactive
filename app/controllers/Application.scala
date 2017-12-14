@@ -31,7 +31,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
 
   def validatePhoneNumber(phoneNumber: String): Boolean = phoneNumber.matches("([0-9]{3})-([0-9]{3})-([0-9]{3})")
 
-  def isAdmin(implicit request: SecuredRequest[MyEnv, AnyContent]): Boolean = request.identity.services.contains("master")
+  def isAdmin(implicit request: SecuredRequest[MyEnv, AnyContent]): Boolean = request.identity.services.contains("administrator")
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // FORMS
@@ -43,7 +43,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "customerPhone" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -65,7 +65,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "customerPhone" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -87,7 +87,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
       "customerName" -> nonEmptyText.verifying(maxLength(20)),
       "customerLastname" -> nonEmptyText.verifying(maxLength(40)),
       "customerAddress" -> nonEmptyText.verifying(maxLength(80)),
-      "customerPhone" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "customerPhone" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "deviceType" -> nonEmptyText.verifying(maxLength(50)),
       "deviceManufacturer" -> nonEmptyText.verifying(maxLength(50)),
       "deviceModel" -> nonEmptyText.verifying(maxLength(20)),
@@ -130,17 +130,17 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // PARTS MANAGEMENT
 
-  def parts = SecuredAction(WithService("master")).async { implicit request =>
+  def parts = SecuredAction(WithService("administrator")).async { implicit request =>
     Part.parts.map { partsList =>
       Ok(views.html.parts(partsList))
     }
   }
 
-  def addPart = SecuredAction(WithService("master")) { implicit request =>
+  def addPart = SecuredAction(WithService("administrator")) { implicit request =>
     Ok(views.html.editPart(partForm))
   }
 
-  def handleAddPart = SecuredAction(WithService("master")).async { implicit request =>
+  def handleAddPart = SecuredAction(WithService("administrator")).async { implicit request =>
     partForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
       part => {
@@ -152,7 +152,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )
   }
 
-  def handleUpdatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def handleUpdatePart(partId: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     partForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.editPart(formWithErrors))),
       part => {
@@ -164,14 +164,14 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     )
   }
 
-  def updatePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def updatePart(partId: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     Part.findPart(partId).map {
       case Some(part) => Ok(views.html.editPart(partForm.fill(part), part._id.map(_.stringify)))
       case None => Redirect(routes.Application.parts).flashing("error" -> "Couldn't find part")
     }
   }
 
-  def deletePart(partId: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def deletePart(partId: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     Part.remove(partId).map {
       case Some(_) => Redirect(routes.Application.parts).flashing("success" -> "Deleted part")
       case None => Redirect(routes.Application.parts).flashing("error" -> "Couldn't delete part")
@@ -238,15 +238,15 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     FixRequest.findById(requestId).map(fixRequestOpt => Ok(views.html.requestDetails(requestId, fixRequestOpt)))
   }
 
-  def myRequests = SecuredAction(WithService("serviceA")).async { implicit request =>
-    (if (request.identity.services.contains("master")) FixRequest.fixRequests
+  def myRequests = SecuredAction(WithService("customer")).async { implicit request =>
+    (if (request.identity.services.contains("administrator")) FixRequest.fixRequests
     else FixRequest.findUsersRequests(request.identity.email))
       .map { fixRequests =>
         Ok(views.html.myRequests(fixRequests))
       }
   }
 
-  def cancelRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+  def cancelRequest(requestId: String) = SecuredAction(WithService("customer")).async { implicit request =>
     FixRequest.findById(requestId).flatMap {
       case Some(fixRequest) => FixRequest.update(fixRequest.copy(requestStatus = "requeststatus.canceled")).map {
         case Some(_) => Redirect(routes.Application.myRequests).flashing("success" -> "Successfully canceled request")
@@ -256,10 +256,10 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     }
   }
 
-  def updateRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+  def updateRequest(requestId: String) = SecuredAction(WithService("customer")).async { implicit request =>
     FixRequest.findById(requestId).flatMap {
       case Some(fixRequest) =>
-        if (request.identity.services.contains("master")) {
+        if (request.identity.services.contains("administrator")) {
           Part.parts.map(partsList => Ok(views.html.editRequest(editRequestFormAdmin.fill(fixRequest), requestId, partsList)))
         } else if (fixRequest.userEmail == request.identity.email)
           Future.successful(Ok(views.html.editRequest(editRequestForm.fill(fixRequest), requestId)))
@@ -269,9 +269,9 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
     }
   }
 
-  def handleUpdateRequest(requestId: String) = SecuredAction(WithService("serviceA")).async { implicit request =>
+  def handleUpdateRequest(requestId: String) = SecuredAction(WithService("customer")).async { implicit request =>
     (
-      if (request.identity.services.contains("master")) editRequestFormAdmin
+      if (request.identity.services.contains("administrator")) editRequestFormAdmin
       else editRequestForm
     ).bindFromRequest.fold(
         formWithErrors => {
@@ -283,7 +283,7 @@ class Application @Inject() (val silhouette: Silhouette[MyEnv], val messagesApi:
         updatedFixRequest => {
           FixRequest.findById(requestId).flatMap {
             case Some(fixRequestToUpdate) =>
-              if (request.identity.services.contains("master") || fixRequestToUpdate.userEmail == request.identity.email) {
+              if (request.identity.services.contains("administrator") || fixRequestToUpdate.userEmail == request.identity.email) {
 
                 val fixRequestToSave: Future[FixRequest] = {
                   if (isAdmin) {

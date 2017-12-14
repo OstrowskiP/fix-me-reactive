@@ -58,12 +58,12 @@ class Auth @Inject() (
       "email" -> email.verifying(maxLength(250)),
       "emailConfirmed" -> ignored(false),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "phoneNr" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "password" -> nonEmptyText.verifying(minLength(6)),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
-      "services" -> ignored(List("serviceA"): List[String])
+      "services" -> ignored(List("customer"): List[String])
     )(User.apply)(User.unapply)
   )
 
@@ -73,7 +73,7 @@ class Auth @Inject() (
       "email" -> ignored("": String),
       "emailConfirmed" -> ignored(false: Boolean),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "phoneNr" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "password" -> ignored("": String),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
@@ -87,7 +87,7 @@ class Auth @Inject() (
       "email" -> ignored("": String),
       "emailConfirmed" -> ignored(false: Boolean),
       "address" -> nonEmptyText,
-      "phoneNr" -> text(9, 9).verifying("Only digits", validatePhoneNumber(_)),
+      "phoneNr" -> text(11, 11).verifying("Wrong number format", validatePhoneNumber(_)),
       "password" -> ignored("": String),
       "nick" -> nonEmptyText,
       "firstName" -> nonEmptyText,
@@ -379,13 +379,13 @@ class Auth @Inject() (
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // ACCOUNT MANAGEMENT
 
-  def users = SecuredAction(WithService("master")).async { implicit request =>
+  def users = SecuredAction(WithService("administrator")).async { implicit request =>
     User.users.map { usersList =>
       Ok(viewsAuth.users(usersList.filterNot(user => user.email == request.identity.email)))
     }
   }
 
-  def updateUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def updateUser(email: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     if (request.identity.email == email) {
       Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
     } else {
@@ -396,7 +396,7 @@ class Auth @Inject() (
     }
   }
 
-  def handleUpdateUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def handleUpdateUser(email: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     if (request.identity.email == email) {
       Future.successful(Redirect(routes.Auth.users).flashing("error" -> "To update own account go to MyAccount tab"))
     } else {
@@ -423,7 +423,7 @@ class Auth @Inject() (
     }
   }
 
-  def deleteUser(email: String) = SecuredAction(WithService("master")).async { implicit request =>
+  def deleteUser(email: String) = SecuredAction(WithService("administrator")).async { implicit request =>
     if (request.identity.email == email) {
       Future.successful(Redirect(routes.Auth.users).flashing("error" -> "Can't delete own account"))
     } else {

@@ -15,27 +15,27 @@
         @if(withMainTabs) {
             <ul class="nav navbar-nav">
             @loggedUser.map { implicit user =>
-                @withService("serviceA") {
+                @withService("customer") {
                     <li class="@("active".when(tab == "myrequests"))">
                         <a class="navbar-icon" href="@routes.Application.myRequests" data-tooltip="@Messages("topbar.myrequests")">
                             <img height="26" src="../../../public/images/menu_items/my_requests.png">
                         </a></li>
                 }
-                @withService("serviceA") {
+                @withService("customer") {
                     <li class="@("active".when(tab == "makearequest"))">
                         <a class="navbar-icon" href="@routes.Application.startMakeARequest" data-tooltip="@Messages("topbar.fixrequest")">
                             <img height="26" src="../../../public/images/menu_items/make_request.png">
                         </a>
                     </li>
                 }
-                @withService("master") {
+                @withService("administrator") {
                     <li class="@("active".when(tab == "users"))">
-                        <a class="navbar-icon" href="@routes.Auth.users">
+                        <a class="navbar-icon" href="@routes.Auth.users" data-tooltip="@Messages("topbar.users")">
                             <img height="26" src="../../../public/images/menu_items/users.png">
                         </a>
                     </li>
                 }
-                @withService("master") {
+                @withService("administrator") {
                     <li class="@("active".when(tab == "parts"))">
                         <a class="navbar-icon" href="@routes.Application.parts" data-tooltip="@Messages("parts.title")">
                             <img height="26" src="../../../public/images/menu_items/parts.png">

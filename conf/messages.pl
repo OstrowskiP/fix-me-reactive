@@ -20,8 +20,9 @@ go.index=Strona główna
 topbar.myaccount=Moje konto
 topbar.hello=Witaj {0}!<br>Poziom uprawnień: {1}
 topbar.fixrequest=Zgłoś żądanie naprawy
+topbar.users=Użytkownicy
 topbar.trackrequest=Śledź zgłoszenie
-topbar.myrequests=Moje zgłoszenia
+topbar.myrequests=Zgłoszenia
 ################################################################################################
 # INDEX
 index.title=Witaj na stronie serwisu FixME!
@@ -94,6 +95,7 @@ language.change=Zmień język
 # FIX REQUEST
 makearequest.title=Dodaj zgłoszenie naprawy
 makearequest.send=Wyślij zgłoszenie
+makearequest.save=Zapisz zgłoszenie
 makearequest.customer.name=Imię
 makearequest.customer.lastname=Nazwisko
 makearequest.customer.address=Adres
@@ -134,7 +136,7 @@ makearequest.track.title=Szczegóły zgłoszenia
 editrequest.title=Edytuj szczegóły zgłoszenia
 ################################################################################################
 # MY REQUESTS
-myrequests.title=Moje zgłoszenia
+myrequests.title=Zgłoszenia naprawy
 myrequests.table.id=ID
 myrequests.table.type=Typ
 myrequests.table.manufacturer=Producent
@@ -149,6 +151,7 @@ parts.table.price=Cena (ZŁ)
 parts.name.placeholder=Kondensator 220uF
 parts.save=Zapisz część
 parts.add=Dodaj część
+parts.details=Szczegóły części
 ################################################################################################
 # Request status
 requeststatus.awaitingconfirmation=Oczekuje na potwierdzenie

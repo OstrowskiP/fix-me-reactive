@@ -10,7 +10,7 @@ import scala.concurrent.Future
 /**
  * Only allows those users that have at least a service of the selected.
  * Master service is always allowed.
- * Ex: WithService("serviceA", "serviceB") => only users with services "serviceA" OR "serviceB" (or "master") are allowed.
+ * Ex: WithService("customer", "serviceB") => only users with services "customer" OR "serviceB" (or "administrator") are allowed.
  */
 case class WithService(anyOf: String*) extends Authorization[User, CookieAuthenticator] {
   def isAuthorized[A](user: User, authenticator: CookieAuthenticator)(implicit r: Request[A]) = Future.successful {
@@ -20,13 +20,13 @@ case class WithService(anyOf: String*) extends Authorization[User, CookieAuthent
 
 object WithService {
   def isAuthorized(user: User, anyOf: String*): Boolean =
-    anyOf.intersect(user.services).size > 0 || user.services.contains("master")
+    anyOf.intersect(user.services).size > 0 || user.services.contains("administrator")
 }
 
 /**
  * Only allows those users that have every of the selected services.
  * Master service is always allowed.
- * Ex: Restrict("serviceA", "serviceB") => only users with services "serviceA" AND "serviceB" (or "master") are allowed.
+ * Ex: Restrict("customer", "serviceB") => only users with services "customer" AND "serviceB" (or "administrator") are allowed.
  */
 case class WithServices(allOf: String*) extends Authorization[User, CookieAuthenticator] {
   def isAuthorized[A](user: User, authenticator: CookieAuthenticator)(implicit r: Request[A]) = Future.successful {
@@ -36,5 +36,5 @@ case class WithServices(allOf: String*) extends Authorization[User, CookieAuthen
 
 object WithServices {
   def isAuthorized(user: User, allOf: String*): Boolean =
-    allOf.intersect(user.services).size == allOf.size || user.services.contains("master")
+    allOf.intersect(user.services).size == allOf.size || user.services.contains("administrator")
 }

@@ -20,8 +20,9 @@ go.index=Go to index
 topbar.myaccount=My account
 topbar.hello=Hello {0}!<br>Access level: {1}
 topbar.fixrequest=Fix request
+topbar.users=Users
 topbar.trackrequest=Track request
-topbar.myrequests=My requests
+topbar.myrequests=Requests
 ################################################################################################
 # INDEX
 index.title=Welcome to FixME webpage!
@@ -94,6 +95,7 @@ language.change=Change language
 # FIX REQUEST
 makearequest.title=Make a fix request
 makearequest.send=Send request
+makearequest.save=Save request
 makearequest.customer.name=Name
 makearequest.customer.lastname=Lastname
 makearequest.customer.address=Address
@@ -134,7 +136,7 @@ makearequest.track.title=Request details
 editrequest.title=Edit request details
 ################################################################################################
 # MY REQUESTS
-myrequests.title=My requests
+myrequests.title=Fix requests
 myrequests.table.id=ID
 myrequests.table.type=Type
 myrequests.table.manufacturer=Manufacturer
@@ -149,6 +151,7 @@ parts.table.price=Price (PLN)
 parts.name.placeholder=Capacitor 220uF
 parts.save=Save part
 parts.add=Add part
+parts.details=Part details
 ################################################################################################
 # Request status
 requeststatus.awaitingconfirmation=Awaiting confirmation
